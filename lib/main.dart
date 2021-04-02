@@ -1,9 +1,52 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
-void main() {
-  runApp(MyApp());
+void collectLog(ZoneDelegate parent, Zone zone, String line) {
+  //收集日志
+  // print("收集的日志：$line");
+  parent.print(zone, "Intercepted: $line");
 }
+
+void reportErrorAndLog(FlutterErrorDetails details) {
+  //上报错误和日志逻辑
+  print("上报错误：${details.toString()}");
+}
+
+FlutterErrorDetails makeDetails(Object obj, StackTrace stack) {
+// 构建错误信息
+  print("构建错误消息");
+}
+
+void main() {
+  // runZoned(()=>runApp(MyApp()));
+  runApp(MyApp());
+  // runZoned(
+  //   () => runApp(MyApp()),
+  //   zoneSpecification: new ZoneSpecification(
+  //       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+  //     parent.print(zone, "Intercepted: $line");
+  //   }),
+  // );
+}
+// void main() {
+//   FlutterError.onError = (FlutterErrorDetails details) {
+//     reportErrorAndLog(details);
+//   };
+//   runZoned(
+//     () => runApp(MyApp()),
+//     zoneSpecification: ZoneSpecification(
+//       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+//         collectLog(parent, zone, line); // 收集日志
+//       },
+//     ),
+//     onError: (Object obj, StackTrace stack) {
+//       var details = makeDetails(obj, stack);
+//       reportErrorAndLog(details);
+//     },
+//   );
+// }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -31,6 +74,9 @@ class MyApp extends StatelessWidget {
         "tip": (context) {
           //这样让原来必须传值才能创建的页面，不需要进行传值。
           return TipRoute(text: ModalRoute.of(context).settings.arguments);
+        },
+        "counter": (context) {
+          return CounterWidget();
         }
       },
     );
@@ -66,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      print("count值：$_counter");
     });
   }
 
@@ -124,6 +171,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Open new page"),
               textColor: Colors.blue,
             ),
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("counter");
+                },
+                child: Text("生命周期")),
             RaisedButton(
               onPressed: () async {
                 var result = await Navigator.push(
@@ -204,6 +256,110 @@ class RandomWordsWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: new Text(wordPair.toString()),
+    );
+  }
+}
+
+class _CounterWidgetState extends State<CounterWidget> {
+  int _counter;
+
+  @override
+  void initState() {
+    //初始化状态
+    super.initState();
+    _counter = widget.initValue;
+    print("initState");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("build");
+    return Scaffold(
+      body: Center(
+        child: FlatButton(
+          child: Text('$_counter'),
+          //点击后计数器自增
+          onPressed: () => setState(
+            () => ++_counter,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didUpdateWidget(CounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("didUpdateWidget");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactive");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose");
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    print("reassemble");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("didChangeDependencies");
+  }
+}
+
+class CounterWidget extends StatefulWidget {
+  const CounterWidget({Key key, this.initValue: 0});
+
+  final int initValue;
+
+  @override
+  _CounterWidgetState createState() => new _CounterWidgetState();
+}
+
+class TapboxA extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return new _TapboxAState();
+  }
+}
+
+class _TapboxAState extends State<TapboxA> {
+  bool _active = false;
+
+  void _handleTap() {
+    setState(() {
+      _active = !_active;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new GestureDetector(
+      onTap: _handleTap,
+      child: new Container(
+        child: new Center(
+          child: new Text(
+            _active ? 'Active' : 'Inactive',
+            style: new TextStyle(fontSize: 32.0, color: Colors.white),
+          ),
+        ),
+        width: 200.0,
+        height: 200.0,
+        decoration: new BoxDecoration(
+          color: _active ? Colors.lightBlue[700] : Colors.green[600],
+        ),
+      ),
     );
   }
 }
