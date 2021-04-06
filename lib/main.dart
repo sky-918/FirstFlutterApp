@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
@@ -571,7 +572,13 @@ class ImageStates extends State {
       ),
       body: Center(
         child: Column(
-          children: <Widget>[Text("标题")],
+          children: <Widget>[
+            Text("标题"),
+            Image.asset(
+              "images/ic_launcher.png",
+              width: 100.0,
+            )
+          ],
         ),
       ),
     );
