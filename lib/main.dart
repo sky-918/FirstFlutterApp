@@ -564,8 +564,20 @@ class BaseView extends StatefulWidget {
 }
 
 class ImageStates extends State {
+  bool _switchSelected = true; //维护单选开关状态
+  bool _checkboxSelected = true; //维护复选框状态
+  //定义一个controller
+  TextEditingController _unameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String icons = "";
+// accessible: &#xE914; or 0xE914 or E914
+    icons += "\uE914";
+// error: &#xE000; or 0xE000 or E000
+    icons += " \uE000";
+// fingerprint: &#xE90D; or 0xE90D or E90D
+    icons += " \uE90D";
+
     return Scaffold(
       appBar: AppBar(
         title: Text("基础控件"),
@@ -573,11 +585,73 @@ class ImageStates extends State {
       body: Center(
         child: Column(
           children: <Widget>[
-            Text("标题"),
+
+            TextField(
+              controller: _unameController,
+              autofocus: true,
+              onChanged: (v) {
+                print("onchange:$v ${_unameController.text} ");
+              },
+              decoration: InputDecoration(
+                  labelText: "用户名",
+                  hintText: "用户名或邮箱",
+                  prefixIcon: Icon(Icons.person)),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: "密码",
+                  hintText: "您的登录密码",
+                  prefixIcon: Icon(Icons.person)),
+              obscureText: true,
+            ),
             Image.asset(
               "images/ic_launcher.png",
               width: 100.0,
-            )
+              fit: BoxFit.fitWidth,
+            ),
+            Image(
+              image: NetworkImage(
+                  "https://avatars2.githubusercontent.com/u/20411648?s=460&v=4"),
+              width: 100.0,
+            ),
+            Image(
+              image: AssetImage("images/ic_launcher.png"),
+              width: 100.0,
+              color: Colors.blue,
+              colorBlendMode: BlendMode.difference,
+            ),
+            Image(
+              image: NetworkImage(
+                  "https://avatars2.githubusercontent.com/u/20411648?s=460&v=4"),
+              width: 100.0,
+              color: Colors.blue,
+              colorBlendMode: BlendMode.difference,
+            ),
+            Text(
+              icons,
+              style: TextStyle(
+                  fontFamily: "MaterialIcons",
+                  fontSize: 24.0,
+                  color: Colors.green),
+            ),
+            Switch(
+              value: _switchSelected, //当前状态
+              onChanged: (value) {
+                //重新构建页面
+                setState(() {
+                  _switchSelected = value;
+                });
+              },
+            ),
+            Checkbox(
+              value: _checkboxSelected,
+              activeColor: Colors.red, //选中时的颜色
+              onChanged: (value) {
+                setState(() {
+                  _checkboxSelected = value;
+                });
+              },
+            ),
           ],
         ),
       ),
