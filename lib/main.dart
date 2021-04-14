@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -90,6 +91,9 @@ class MyApp extends StatelessWidget {
         },
         "BaseView": (context) {
           return BaseView();
+        },
+        "window_FocusTestRoute": (context) {
+          return FocusTestRoute();
         }
       },
     );
@@ -224,6 +228,11 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text("基础view"),
             ),
+            RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("window_FocusTestRoute");
+                },
+                child: Text("TextField")),
             RandomWordsWidget(),
           ],
         ),
@@ -568,6 +577,7 @@ class ImageStates extends State {
   bool _checkboxSelected = true; //维护复选框状态
   //定义一个controller
   TextEditingController _unameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     String icons = "";
