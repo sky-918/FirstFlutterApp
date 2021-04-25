@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:first_flutter_app/layout.dart';
 import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
@@ -94,7 +95,10 @@ class MyApp extends StatelessWidget {
         },
         "window_FocusTestRoute": (context) {
           return FocusTestRoute();
-        }
+        },
+        "RowPage": (context) {
+          return RowPage();
+        },
       },
     );
   }
@@ -233,6 +237,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.of(context).pushNamed("window_FocusTestRoute");
                 },
                 child: Text("TextField")),
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed("RowPage");
+              },
+              child: Text("布局学习"),
+            ),
             RandomWordsWidget(),
           ],
         ),
@@ -595,7 +605,6 @@ class ImageStates extends State {
       body: Center(
         child: Column(
           children: <Widget>[
-
             TextField(
               controller: _unameController,
               autofocus: true,
