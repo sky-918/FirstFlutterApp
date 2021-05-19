@@ -74,6 +74,9 @@ class MyApp extends StatelessWidget {
         "/": (context) => MyHomePage(
               title: 'Flutter Demo Home Page',
             ),
+        // "/": (context) => NewHomePage(
+        //
+        //     ),
         "tip": (context) {
           //这样让原来必须传值才能创建的页面，不需要进行传值。
           return TipRoute(text: ModalRoute.of(context).settings.arguments);
@@ -98,6 +101,9 @@ class MyApp extends StatelessWidget {
         },
         "RowPage": (context) {
           return RowPage();
+        },
+        "RowPage1": (context) {
+          return CustomScrollViewTestRoute();
         },
       },
     );
@@ -169,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
@@ -209,39 +215,49 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
                 print("路由返回值：$result");
               },
-              child: Text("打开提示页面"),
+              child: Text("打开提示页面", style: TextStyle(fontSize: 10.0)),
             ),
             FlatButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("TapboxA");
                 },
-                child: Text("测试Widget状态")),
+                child: Text(
+                  "测试Widget状态",
+                  style: TextStyle(fontSize: 10.0),
+                )),
             FlatButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("ParentWidget");
                 },
-                child: Text("测试父管理子的Widget状态")),
+                child:
+                    Text("测试父管理子的Widget状态", style: TextStyle(fontSize: 10.0))),
             FlatButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("ParentWidgetC");
                 },
-                child: Text("测试混合管理Widget状态")),
+                child:
+                    Text("测试混合管理Widget状态", style: TextStyle(fontSize: 10.0))),
             RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed("BaseView");
               },
-              child: Text("基础view"),
+              child: Text("基础view", style: TextStyle(fontSize: 10.0)),
             ),
             RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("window_FocusTestRoute");
                 },
-                child: Text("TextField")),
+                child: Text("TextField", style: TextStyle(fontSize: 10.0))),
             RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed("RowPage");
               },
-              child: Text("布局学习"),
+              child: Text("布局学习", style: TextStyle(fontSize: 10.0)),
+            ),  RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed("RowPage1");
+              },
+              child: Text("CustomScrollViewTestRoute", style: TextStyle(fontSize: 10.0)),
             ),
             RandomWordsWidget(),
           ],
