@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'main.dart';
+
 //布局相关学习，线性布局 row、column
 class RowPage extends StatefulWidget {
   @override
@@ -137,6 +139,8 @@ class FlexLayoutTestRoute extends StatelessWidget {
 
 
 class CustomScrollViewTestRoute extends StatelessWidget {
+  var listRoute = ['new_page', 'old_home', 'tip','TapboxA','ParentWidget','ParentWidgetC','BaseView','window_FocusTestRoute','RowPage','counter'];
+  var listPageName=['新页面','原主页','页面传值',"测试widget状态",'测试父管理子的Widget状态','测试混合管理Widget状态','基础view','TextField','布局学习','生命周期'];
   @override
   Widget build(BuildContext context) {
     //因为本路由没有使用Scaffold，为了让子级Widget(如Text)使用
@@ -149,7 +153,7 @@ class CustomScrollViewTestRoute extends StatelessWidget {
             pinned: true,
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Demo'),
+              title:  Text('Demo',style: new TextStyle(fontSize: 32.0, color: Colors.red),),
               background: Image.asset(
                 "./images/ic_launcher.png", fit: BoxFit.cover,),
             ),
@@ -160,9 +164,9 @@ class CustomScrollViewTestRoute extends StatelessWidget {
             sliver: new SliverGrid( //Grid
               gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, //Grid按两列显示
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
-                childAspectRatio: 4.0,
+                mainAxisSpacing: 20.0,
+                crossAxisSpacing: 20.0,
+                childAspectRatio: 2.0,
               ),
               delegate: new SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
@@ -170,14 +174,24 @@ class CustomScrollViewTestRoute extends StatelessWidget {
                   return new Container(
                     alignment: Alignment.center,
                     color: Colors.cyan[100 * (index % 9)],
-                    child:new ListTile(title:Text('list item $index') ,
+                    child:new ListTile(title:Text(listPageName[index]) ,
                     onTap: (){
                       print("********************************");
+                      if(index==2){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return TipRoute(
+                              text: "我是提示页面",
+                            );
+                          }),
+                        );
+                      }else{ Navigator.of(context).pushNamed(listRoute[index]);}
                     },),
 
                   );
                 },
-                childCount: 20,
+                childCount: listPageName.length,
               ),
             ),
           ),
@@ -194,7 +208,7 @@ class CustomScrollViewTestRoute extends StatelessWidget {
 
                   );
                 },
-                childCount: 50 //50个列表项
+                childCount: 10 //50个列表项
             ),
 
           ),

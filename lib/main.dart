@@ -71,12 +71,12 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "new_page": (context) => NewRoute(),
-        "/": (context) => MyHomePage(
+        "old_home": (context) => MyHomePage(
               title: 'Flutter Demo Home Page',
             ),
-        // "/": (context) => NewHomePage(
-        //
-        //     ),
+        "/": (context) => CustomScrollViewTestRoute(
+
+            ),
         "tip": (context) {
           //这样让原来必须传值才能创建的页面，不需要进行传值。
           return TipRoute(text: ModalRoute.of(context).settings.arguments);
