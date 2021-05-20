@@ -104,6 +104,8 @@ class MyApp extends StatelessWidget {
         },
         "RowPage1": (context) {
           return CustomScrollViewTestRoute();
+        },  "ButtonStatelessWidget": (context) {
+          return ButtonStatelessWidget();
         },
       },
     );

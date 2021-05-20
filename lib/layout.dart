@@ -135,12 +135,34 @@ class FlexLayoutTestRoute extends StatelessWidget {
   }
 }
 
-
-
-
 class CustomScrollViewTestRoute extends StatelessWidget {
-  var listRoute = ['new_page', 'old_home', 'tip','TapboxA','ParentWidget','ParentWidgetC','BaseView','window_FocusTestRoute','RowPage','counter'];
-  var listPageName=['新页面','原主页','页面传值',"测试widget状态",'测试父管理子的Widget状态','测试混合管理Widget状态','基础view','TextField','布局学习','生命周期'];
+  var listRoute = [
+    'new_page',
+    'old_home',
+    'tip',
+    'TapboxA',
+    'ParentWidget',
+    'ParentWidgetC',
+    'BaseView',
+    'window_FocusTestRoute',
+    'RowPage',
+    'counter',
+    'ButtonStatelessWidget'
+  ];
+  var listPageName = [
+    '新页面',
+    '原主页',
+    '页面传值',
+    "测试widget状态",
+    '测试父管理子的Widget状态',
+    '测试混合管理Widget状态',
+    '基础view',
+    'TextField',
+    '布局学习',
+    '生命周期',
+    'ButtonStatelessWidget'
+  ];
+
   @override
   Widget build(BuildContext context) {
     //因为本路由没有使用Scaffold，为了让子级Widget(如Text)使用
@@ -153,15 +175,21 @@ class CustomScrollViewTestRoute extends StatelessWidget {
             pinned: true,
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
-              title:  Text('Demo',style: new TextStyle(fontSize: 32.0, color: Colors.red),),
+              title: Text(
+                'Demo',
+                style: new TextStyle(fontSize: 32.0, color: Colors.red),
+              ),
               background: Image.asset(
-                "./images/ic_launcher.png", fit: BoxFit.cover,),
+                "./images/ic_launcher.png",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
           SliverPadding(
             padding: const EdgeInsets.all(8.0),
-            sliver: new SliverGrid( //Grid
+            sliver: new SliverGrid(
+              //Grid
               gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, //Grid按两列显示
                 mainAxisSpacing: 20.0,
@@ -169,26 +197,29 @@ class CustomScrollViewTestRoute extends StatelessWidget {
                 childAspectRatio: 2.0,
               ),
               delegate: new SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
+                (BuildContext context, int index) {
                   //创建子widget
                   return new Container(
                     alignment: Alignment.center,
                     color: Colors.cyan[100 * (index % 9)],
-                    child:new ListTile(title:Text(listPageName[index]) ,
-                    onTap: (){
-                      print("********************************");
-                      if(index==2){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return TipRoute(
-                              text: "我是提示页面",
-                            );
-                          }),
-                        );
-                      }else{ Navigator.of(context).pushNamed(listRoute[index]);}
-                    },),
-
+                    child: new ListTile(
+                      title: Text(listPageName[index]),
+                      onTap: () {
+                        print("********************************");
+                        if (index == 2) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return TipRoute(
+                                text: "我是提示页面",
+                              );
+                            }),
+                          );
+                        } else {
+                          Navigator.of(context).pushNamed(listRoute[index]);
+                        }
+                      },
+                    ),
                   );
                 },
                 childCount: listPageName.length,
@@ -199,19 +230,50 @@ class CustomScrollViewTestRoute extends StatelessWidget {
           new SliverFixedExtentList(
             itemExtent: 50.0,
             delegate: new SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  //创建列表项
-                  return new Container(
-                    alignment: Alignment.center,
-                    color: Colors.lightBlue[100 * (index % 9)],
-                    child: new Text('list item $index'),
-
-                  );
-                },
-                childCount: 10 //50个列表项
-            ),
-
+                (BuildContext context, int index) {
+              //创建列表项
+              return new Container(
+                alignment: Alignment.center,
+                color: Colors.lightBlue[100 * (index % 9)],
+                child: new Text('list item $index'),
+              );
+            }, childCount: 10 //50个列表项
+                ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class ButtonStatelessWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Column(
+        children: <Widget>[
+          AppBar(
+            title: Text("DecoratedBox"),
+          ),
+          DecoratedBox(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [Colors.red, Colors.orange[700]]), //背景渐变
+                  borderRadius: BorderRadius.circular(3.0), //3像素圆角
+                  boxShadow: [
+                    //阴影
+                    BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(2.0, 2.0),
+                        blurRadius: 4.0)
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 18.0),
+                child: Text(
+                  "Login",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ))
         ],
       ),
     );
