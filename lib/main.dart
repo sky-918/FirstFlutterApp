@@ -111,6 +111,9 @@ class MyApp extends StatelessWidget {
         },
         "ScrollNotificationTestRoute": (context) {
           return ScrollNotificationTestRoute();
+        },
+        'WillPopScopeTestRoute':(context){
+          return WillPopScopeTestRoute();
         }
       },
     );
