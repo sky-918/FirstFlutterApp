@@ -74,9 +74,7 @@ class MyApp extends StatelessWidget {
         "old_home": (context) => MyHomePage(
               title: 'Flutter Demo Home Page',
             ),
-        "/": (context) => CustomScrollViewTestRoute(
-
-            ),
+        "/": (context) => CustomScrollViewTestRoute(),
         "tip": (context) {
           //这样让原来必须传值才能创建的页面，不需要进行传值。
           return TipRoute(text: ModalRoute.of(context).settings.arguments);
@@ -104,9 +102,16 @@ class MyApp extends StatelessWidget {
         },
         "RowPage1": (context) {
           return CustomScrollViewTestRoute();
-        },  "ButtonStatelessWidget": (context) {
+        },
+        "ButtonStatelessWidget": (context) {
           return ButtonStatelessWidget();
         },
+        "ScrollControllerTestRoute": (context) {
+          return ScrollControllerTestRoute();
+        },
+        "ScrollNotificationTestRoute": (context) {
+          return ScrollNotificationTestRoute();
+        }
       },
     );
   }
@@ -255,11 +260,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.of(context).pushNamed("RowPage");
               },
               child: Text("布局学习", style: TextStyle(fontSize: 10.0)),
-            ),  RaisedButton(
+            ),
+            RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed("RowPage1");
               },
-              child: Text("CustomScrollViewTestRoute", style: TextStyle(fontSize: 10.0)),
+              child: Text("CustomScrollViewTestRoute",
+                  style: TextStyle(fontSize: 10.0)),
             ),
             RandomWordsWidget(),
           ],
