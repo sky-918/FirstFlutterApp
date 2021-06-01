@@ -114,6 +114,9 @@ class MyApp extends StatelessWidget {
         },
         'WillPopScopeTestRoute':(context){
           return WillPopScopeTestRoute();
+        },
+        "InheritedWidgetTestRoute":(context){
+          return InheritedWidgetTestRoute();
         }
       },
     );
