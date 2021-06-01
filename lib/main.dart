@@ -117,6 +117,9 @@ class MyApp extends StatelessWidget {
         },
         "InheritedWidgetTestRoute":(context){
           return InheritedWidgetTestRoute();
+        },
+        'ProviderRoute':(context){
+          return ProviderRoute();
         }
       },
     );
