@@ -120,6 +120,8 @@ class MyApp extends StatelessWidget {
         },
         'ProviderRoute':(context){
           return ProviderRoute();
+        },'ColorAndThem':(context){
+          return ColorAndThem();
         }
       },
     );
