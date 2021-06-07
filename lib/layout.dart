@@ -573,17 +573,16 @@ class _ProviderRouteState extends State<ProviderRoute> {
             ),
             body: Column(
               children: <Widget>[
-                Builder(builder: (context) {
-                  var cart = ChangeNotifierProvider.of<CartModel>(context);
-                  return Text("总价: ${cart.totalPrice}");
-                }),
+                Consumer<CartModel>(
+                    builder: (context, cart)=> Text("总价: ${cart.totalPrice}")
+                ),
                 Builder(builder: (context) {
                   print("RaisedButton build"); //在后面优化部分会用到
                   return RaisedButton(
                     child: Text("添加商品"),
                     onPressed: () {
                       //给购物车中添加商品，添加后总价会更新
-                      ChangeNotifierProvider.of<CartModel>(context)
+                      ChangeNotifierProvider.of<CartModel>(context, listen: false)
                           .add(Item(20.0, 1));
                     },
                   );
@@ -648,10 +647,13 @@ class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
   final T data;
 
   //定义一个便捷方法，方便子树中的widget获取共享数据
-  static T of<T>(BuildContext context) {
+  //添加一个listen参数，表示是否建立依赖关系
+  static T of<T>(BuildContext context, {bool listen = true}) {
     // final type = _typeOf<InheritedProvider<T>>();
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<InheritedProvider<T>>();
+    final provider = listen
+        ? context.dependOnInheritedWidgetOfExactType<InheritedProvider<T>>()
+        : context.getElementForInheritedWidgetOfExactType<InheritedProvider<T>>()?.widget
+    as InheritedProvider<T>;
     return provider.data;
   }
 
@@ -696,3 +698,28 @@ class ChangeNotifier implements Listenable {
 
 //省略无关代码
 }
+
+// 这是一个便捷类，会获得当前context和指定数据类型的Provider
+class Consumer<T> extends StatelessWidget {
+  Consumer({
+    Key key,
+    @required this.builder,
+    this.child,
+  })  : assert(builder != null),
+        super(key: key);
+
+  final Widget child;
+
+  final Widget Function(BuildContext context, T value) builder;
+
+  @override
+  Widget build(BuildContext context) {
+    return builder(
+      context,
+      ChangeNotifierProvider.of<T>(context), //自动获取Model
+    );
+  }
+}
+
+
+
