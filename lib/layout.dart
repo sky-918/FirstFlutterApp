@@ -155,7 +155,8 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'WillPopScopeTestRoute',
     'InheritedWidgetTestRoute',
     'ProviderRoute',
-    'ColorAndThem'
+    'ColorAndThem',
+    'FuturePage'
   ];
   var listPageName = [
     '新页面',
@@ -174,7 +175,8 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'WillPopScopeTestRoute',
     'InheritedWidgetTestRoute',
     'ProviderRoute',
-    'ColorAndThem'
+    'ColorAndThem',
+    'FuturePage'
   ];
 
   @override
