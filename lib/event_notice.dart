@@ -31,9 +31,7 @@ class _PointerEvent extends State<PointerEvent1> {
               child: Text(_event?.toString() ?? "",
                   style: TextStyle(color: Colors.black)),
             ),
-            onPointerDown: (PointerDownEvent event) =>
-                setState(() =>
-                {
+            onPointerDown: (PointerDownEvent event) => setState(() => {
                   _event = event.toString(),
                   print("hahahahah" + event.toString())
                 }),
@@ -64,9 +62,9 @@ class _PointerEvent extends State<PointerEvent1> {
                   constraints: BoxConstraints.tight(Size(200.0, 100.0)),
                   child: Center(
                       child: Text(
-                        "左上角200*100范围内非文本区域点击",
-                        style: TextStyle(backgroundColor: Colors.teal),
-                      )),
+                    "左上角200*100范围内非文本区域点击",
+                    style: TextStyle(backgroundColor: Colors.teal),
+                  )),
                 ),
                 onPointerDown: (event) => print("down1"),
                 behavior: HitTestBehavior.translucent, //放开此行注释后可以"点透"
@@ -230,33 +228,33 @@ class _GestureRecognizerTestRouteState
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    bus.on("login", (arg) {
+      print("接收到数据总线到数据："+arg);
+      bus.off("login");
+    });
+    return Scaffold(
         appBar: AppBar(
           title: Text('拖动'),
         ),
         body: Center(
-          child:
-          Text.rich(
-              TextSpan(
-                  children: [
-                    TextSpan(text: "你好世界"),
-                    TextSpan(
-                      text: "点我变色",
-                      style: TextStyle(
-                          fontSize: 30.0,
-                          color: _toggle ? Colors.blue : Colors.red
-                      ),
-                      recognizer: _tapGestureRecognizer
-                        ..onTap = () {
-                          setState(() {
-                            _toggle = !_toggle;
-                          });
-                        },
-                    ),
-                    TextSpan(text: "你好世界"),
-                  ]
-              )
-          ),
+          child: Text.rich(TextSpan(children: [
+            TextSpan(text: "你好世界"),
+            TextSpan(
+              text: "点我变色",
+              style: TextStyle(
+                  fontSize: 30.0, color: _toggle ? Colors.blue : Colors.red),
+              recognizer: _tapGestureRecognizer
+                ..onTap = () {
+                  setState(() {
+                    _toggle = !_toggle;
+                    //登录成功后触发登录事件，页面A中订阅者会被调用
+                    bus.emit("login", "send——flag");
+                    print("触发事件总线任务");
+                  });
+                },
+            ),
+            TextSpan(text: "你好世界"),
+          ])),
         ));
   }
 }
@@ -268,3 +266,51 @@ class GestureRecognizerTestRoute extends StatefulWidget {
   }
 }
 
+//订阅者回调签名
+typedef void EventCallback(arg);
+
+class EventBus {
+  //私有构造函数
+  EventBus._internal();
+
+  //保存单例
+  static EventBus _singleton = new EventBus._internal();
+
+  //工厂构造函数
+  factory EventBus() => _singleton;
+
+  //保存事件订阅者队列，key:事件名(id)，value: 对应事件的订阅者队列
+  var _emap = new Map<Object, List<EventCallback>>();
+
+  //添加订阅者
+  void on(eventName, EventCallback f) {
+    if (eventName == null || f == null) return;
+    _emap[eventName] ??= new List<EventCallback>();
+    _emap[eventName].add(f);
+  }
+
+  //移除订阅者
+  void off(eventName, [EventCallback f]) {
+    var list = _emap[eventName];
+    if (eventName == null || list == null) return;
+    if (f == null) {
+      _emap[eventName] = null;
+    } else {
+      list.remove(f);
+    }
+  }
+
+  //触发事件，事件触发后该事件所有订阅者会被调用
+  void emit(eventName, [arg]) {
+    var list = _emap[eventName];
+    if (list == null) return;
+    int len = list.length - 1;
+    //反向遍历，防止订阅者在回调中移除自身带来的下标错位
+    for (var i = len; i > -1; --i) {
+      list[i](arg);
+    }
+  }
+}
+
+//定义一个top-level（全局）变量，页面引入该文件后可以直接使用bus
+var bus = new EventBus();
