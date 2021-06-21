@@ -143,6 +143,9 @@ class MyApp extends StatelessWidget {
         }, 'GestureRecognizerTestRoute': (context) {
           return GestureRecognizerTestRoute();
         },
+        "NotificationRoute":(context){
+          return NotificationRoute();
+        }
       },
     );
   }
