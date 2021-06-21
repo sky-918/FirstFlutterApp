@@ -156,7 +156,11 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'InheritedWidgetTestRoute',
     'ProviderRoute',
     'ColorAndThem',
-    'FuturePage'
+    'FuturePage',
+    'PointerEvent1',
+    'GestureDetectorTestRoute',
+    '_Drag',
+    '_ScaleTestRoute','GestureRecognizerTestRoute'
   ];
   var listPageName = [
     '新页面',
@@ -176,7 +180,11 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'InheritedWidgetTestRoute',
     'ProviderRoute',
     'ColorAndThem',
-    'FuturePage'
+    'FuturePage',
+    'PointerEvent1',
+    'GestureDetectorTestRoute',
+    '_Drag',
+    '_ScaleTestRoute','GestureRecognizerTestRoute'
   ];
 
   @override

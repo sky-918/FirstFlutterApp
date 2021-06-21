@@ -6,6 +6,8 @@ import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
+import 'event_notice.dart';
+
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
   // print("收集的日志：$line");
@@ -126,7 +128,21 @@ class MyApp extends StatelessWidget {
         },
         'FuturePage': (context) {
           return FuturePage();
-        }
+        },
+        'PointerEvent1': (context) {
+          return PointerEvent1();
+        },
+        'GestureDetectorTestRoute': (context) {
+          return GestureDetectorTestRoute();
+        },
+        '_Drag': (context) {
+          return Drag();
+        },
+        '_ScaleTestRoute': (context) {
+          return ScaleTestRoute();
+        }, 'GestureRecognizerTestRoute': (context) {
+          return GestureRecognizerTestRoute();
+        },
       },
     );
   }
