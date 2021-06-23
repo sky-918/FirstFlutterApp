@@ -148,7 +148,12 @@ class MyApp extends StatelessWidget {
           return NotificationRoute();
         },  "ScaleAnimationRoute":(context){
           return ScaleAnimationRoute();
-        },
+        },"HeroAnimationRoute":(context){
+          return HeroAnimationRoute();
+        },"StaggerRoute":(context){
+          return StaggerRoute();
+        }
+
       },
     );
   }

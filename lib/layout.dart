@@ -1,7 +1,9 @@
 import 'dart:collection';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
 import 'main.dart';
 
 //布局相关学习，线性布局 row、column
@@ -160,7 +162,12 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'PointerEvent1',
     'GestureDetectorTestRoute',
     '_Drag',
-    '_ScaleTestRoute','GestureRecognizerTestRoute','NotificationRoute','ScaleAnimationRoute'
+    '_ScaleTestRoute',
+    'GestureRecognizerTestRoute',
+    'NotificationRoute',
+    'ScaleAnimationRoute',
+    'HeroAnimationRoute',
+    'StaggerRoute'
   ];
   var listPageName = [
     '新页面',
@@ -184,7 +191,11 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'PointerEvent1',
     'GestureDetectorTestRoute',
     '_Drag',
-    '_ScaleTestRoute','GestureRecognizerTestRoute','NotificationRoute','ScaleAnimationRoute'
+    '_ScaleTestRoute',
+    'GestureRecognizerTestRoute',
+    'NotificationRoute',
+    'ScaleAnimationRoute',
+    'HeroAnimationRoute','StaggerRoute'
   ];
 
   @override
@@ -233,7 +244,10 @@ class CustomScrollViewTestRoute extends StatelessWidget {
                         if (index == 2) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) {
+                            //ios过渡页面模式，左进右出
+                            // CupertinoPageRoute(builder: (context) {
+                            //安卓过渡模式
+                            FadeRoute(builder: (context) {
                               return TipRoute(
                                 text: "我是提示页面",
                               );
@@ -241,6 +255,9 @@ class CustomScrollViewTestRoute extends StatelessWidget {
                           );
                         } else {
                           Navigator.of(context).pushNamed(listRoute[index]);
+                          // Navigator.push(context, FadeRoute(builder: (context) {
+                          //   return PageB();
+                          // }));
                         }
                       },
                     ),
@@ -759,7 +776,10 @@ class _ClorAndThem extends State<ColorAndThem> {
             content: Text("您确定要删除当前文件吗?"),
             actions: <Widget>[
               FlatButton(
-                child: Text("取消",),color: Colors.red,
+                child: Text(
+                  "取消",
+                ),
+                color: Colors.red,
                 onPressed: () => Navigator.of(context).pop(), // 关闭对话框
               ),
               FlatButton(
@@ -774,6 +794,7 @@ class _ClorAndThem extends State<ColorAndThem> {
         },
       );
     }
+
     Future<void> changeLanguage() async {
       int i = await showDialog<int>(
           context: context,
@@ -809,6 +830,7 @@ class _ClorAndThem extends State<ColorAndThem> {
         print("选择了：${i == 1 ? "中文简体" : "美国英语"}");
       }
     }
+
     Future<void> showListDialog() async {
       int index = await showDialog<int>(
         context: context,
@@ -818,14 +840,14 @@ class _ClorAndThem extends State<ColorAndThem> {
               ListTile(title: Text("请选择")),
               Expanded(
                   child: ListView.builder(
-                    itemCount: 30,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text("$index"),
-                        onTap: () => Navigator.of(context).pop(index),
-                      );
-                    },
-                  )),
+                itemCount: 30,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text("$index"),
+                    onTap: () => Navigator.of(context).pop(index),
+                  );
+                },
+              )),
             ],
           );
           //使用AlertDialog会报错
@@ -837,12 +859,15 @@ class _ClorAndThem extends State<ColorAndThem> {
         print("点击了：$index");
       }
     }
+
     Future<T> showCustomDialog<T>({
       @required BuildContext context,
       bool barrierDismissible = true,
       WidgetBuilder builder,
     }) {
-      final ThemeData theme = Theme.of(context,);
+      final ThemeData theme = Theme.of(
+        context,
+      );
       return showGeneralDialog(
         context: context,
         pageBuilder: (BuildContext buildContext, Animation<double> animation,
@@ -857,16 +882,17 @@ class _ClorAndThem extends State<ColorAndThem> {
           );
         },
         barrierDismissible: barrierDismissible,
-        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-        barrierColor: Colors.black87, // 自定义遮罩颜色
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: Colors.black87,
+        // 自定义遮罩颜色
         transitionDuration: const Duration(milliseconds: 150),
         transitionBuilder: _buildMaterialDialogTransitions,
       );
     }
 
-
     Future<bool> showDeleteConfirmDialog2() {
-      return   showCustomDialog<bool>(
+      return showCustomDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -889,6 +915,7 @@ class _ClorAndThem extends State<ColorAndThem> {
         },
       );
     }
+
     return Theme(
         data: ThemeData(
             primarySwatch: _themeColor, //用于导航栏、FloatingActionButton的背景色等
@@ -979,6 +1006,7 @@ Widget _buildMaterialDialogTransitions(
     child: child,
   );
 }
+
 class NavBar extends StatelessWidget {
   final String title;
   final Color color; //背景颜色
