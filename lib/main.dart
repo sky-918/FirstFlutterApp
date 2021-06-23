@@ -6,6 +6,7 @@ import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
+import 'animation.dart';
 import 'event_notice.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
@@ -145,7 +146,9 @@ class MyApp extends StatelessWidget {
         },
         "NotificationRoute":(context){
           return NotificationRoute();
-        }
+        },  "ScaleAnimationRoute":(context){
+          return ScaleAnimationRoute();
+        },
       },
     );
   }
@@ -239,12 +242,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Open new page"),
               textColor: Colors.blue,
             ),
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("counter");
                 },
-                child: Text("生命周期")),
-            RaisedButton(
+                child: Text("生命周期1")),
+            ElevatedButton(
               onPressed: () async {
                 var result = await Navigator.push(
                   context,
