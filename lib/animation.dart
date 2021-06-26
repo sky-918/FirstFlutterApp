@@ -335,3 +335,487 @@ class _StaggerRouteState extends State<StaggerRoute>
         ]));
   }
 }
+// return Scaffold(
+// appBar: AppBar(
+// title: Text('交织动画'),
+// ),
+// body: Column(children: <Widget>[])
+// );
+
+// 通用“动画切换”组件（AnimatedSwitcher）
+class AnimatedSwitcherCounterRoute extends StatefulWidget {
+  const AnimatedSwitcherCounterRoute({Key key}) : super(key: key);
+
+  @override
+  _AnimatedSwitcherCounterRouteState createState() =>
+      _AnimatedSwitcherCounterRouteState();
+}
+
+class _AnimatedSwitcherCounterRouteState
+    extends State<AnimatedSwitcherCounterRoute> {
+  int _count = 0;
+  Color _decorationColor = Colors.blue;
+  var duration = Duration(seconds: 1);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('动画切换'),
+        ),
+        body: Column(children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    //执行缩放动画
+                    // return ScaleTransition(child: child, scale: animation);
+                    //右进左出动画
+                    var tween =
+                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
+                    // return MySlideTransition(
+                    //   child: child,
+                    //   position: tween.animate(animation),
+                    // );
+                    return SlideTransitionX(
+                      child: child,
+                      direction: AxisDirection.down,
+                      position: animation,
+                    );
+                  },
+                  child: Text(
+                    '$_count',
+                    //显示指定key，不同的key会被认为是不同的Text，这样才能执行动画
+                    key: ValueKey<int>(_count),
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ),
+                RaisedButton(
+                  child: const Text(
+                    '+1',
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _count += 1;
+                    });
+                  },
+                ),
+                AnimatedDecoratedBox1(
+                  duration: duration,
+                  decoration: BoxDecoration(color: _decorationColor),
+                  child: FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        _decorationColor = Colors.red;
+                      });
+                    },
+                    child: Text(
+                      "AnimatedDecoratedBox",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                AnimatedDecoratedBox(
+                  duration: duration,
+                  decoration: BoxDecoration(color: _decorationColor),
+                  child: FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        _decorationColor = Colors.red;
+                      });
+                    },
+                    child: Text(
+                      "AnimatedDecoratedBox",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                AnimatedDecoratedBox(
+                  duration: Duration(
+                      milliseconds:
+                          _decorationColor == Colors.red ? 400 : 2000),
+                  decoration: BoxDecoration(color: _decorationColor),
+                  child: Builder(builder: (context) {
+                    return FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          _decorationColor = _decorationColor == Colors.blue
+                              ? Colors.red
+                              : Colors.blue;
+                        });
+                      },
+                      child: Text(
+                        "AnimatedDecoratedBox toggle",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }),
+                )
+              ],
+            ),
+          )
+        ]));
+  }
+}
+
+class MySlideTransition extends AnimatedWidget {
+  MySlideTransition({
+    Key key,
+    @required Animation<Offset> position,
+    this.transformHitTests = true,
+    this.child,
+  })  : assert(position != null),
+        super(key: key, listenable: position);
+
+  Animation<Offset> get position => listenable;
+  final bool transformHitTests;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    Offset offset = position.value;
+    //动画反向执行时，调整x偏移，实现“从左边滑出隐藏”
+    if (position.status == AnimationStatus.reverse) {
+      offset = Offset(-offset.dx, offset.dy);
+    }
+    return FractionalTranslation(
+      translation: offset,
+      transformHitTests: transformHitTests,
+      child: child,
+    );
+  }
+}
+
+//不同方向的过渡动画
+class SlideTransitionX extends AnimatedWidget {
+  SlideTransitionX({
+    Key key,
+    @required Animation<double> position,
+    this.transformHitTests = true,
+    this.direction = AxisDirection.down,
+    this.child,
+  })  : assert(position != null),
+        super(key: key, listenable: position) {
+    // 偏移在内部处理
+    switch (direction) {
+      case AxisDirection.up:
+        _tween = Tween(begin: Offset(0, 1), end: Offset(0, 0));
+        break;
+      case AxisDirection.right:
+        _tween = Tween(begin: Offset(-1, 0), end: Offset(0, 0));
+        break;
+      case AxisDirection.down:
+        _tween = Tween(begin: Offset(0, -1), end: Offset(0, 0));
+        break;
+      case AxisDirection.left:
+        _tween = Tween(begin: Offset(1, 0), end: Offset(0, 0));
+        break;
+    }
+  }
+
+  Animation<double> get position => listenable;
+
+  final bool transformHitTests;
+
+  final Widget child;
+
+  //退场（出）方向
+  final AxisDirection direction;
+
+  Tween<Offset> _tween;
+
+  @override
+  Widget build(BuildContext context) {
+    Offset offset = _tween.evaluate(position);
+    if (position.status == AnimationStatus.reverse) {
+      switch (direction) {
+        case AxisDirection.up:
+          offset = Offset(offset.dx, -offset.dy);
+          break;
+        case AxisDirection.right:
+          offset = Offset(-offset.dx, offset.dy);
+          break;
+        case AxisDirection.down:
+          offset = Offset(offset.dx, -offset.dy);
+          break;
+        case AxisDirection.left:
+          offset = Offset(-offset.dx, offset.dy);
+          break;
+      }
+    }
+    return FractionalTranslation(
+      translation: offset,
+      transformHitTests: transformHitTests,
+      child: child,
+    );
+  }
+}
+
+//过渡组件的动画
+
+class AnimatedDecoratedBox1 extends StatefulWidget {
+  AnimatedDecoratedBox1({
+    Key key,
+    @required this.decoration,
+    this.child,
+    this.curve = Curves.linear,
+    @required this.duration,
+    this.reverseDuration,
+  });
+
+  final BoxDecoration decoration;
+  final Widget child;
+  final Duration duration;
+  final Curve curve;
+  final Duration reverseDuration;
+
+  @override
+  _AnimatedDecoratedBox1State createState() => _AnimatedDecoratedBox1State();
+}
+
+class _AnimatedDecoratedBox1State extends State<AnimatedDecoratedBox1>
+    with SingleTickerProviderStateMixin {
+  @protected
+  AnimationController get controller => _controller;
+  AnimationController _controller;
+
+  Animation<double> get animation => _animation;
+  Animation<double> _animation;
+
+  DecorationTween _tween;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return DecoratedBox(
+          decoration: _tween.animate(_animation).value,
+          child: child,
+        );
+      },
+      child: widget.child,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: widget.duration,
+      reverseDuration: widget.reverseDuration,
+      vsync: this,
+    );
+    _tween = DecorationTween(begin: widget.decoration);
+    _updateCurve();
+  }
+
+  void _updateCurve() {
+    if (widget.curve != null)
+      _animation = CurvedAnimation(parent: _controller, curve: widget.curve);
+    else
+      _animation = _controller;
+  }
+
+  @override
+  void didUpdateWidget(AnimatedDecoratedBox1 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.curve != oldWidget.curve) _updateCurve();
+    _controller.duration = widget.duration;
+    _controller.reverseDuration = widget.reverseDuration;
+    if (widget.decoration != (_tween.end ?? _tween.begin)) {
+      _tween
+        ..begin = _tween.evaluate(_animation)
+        ..end = widget.decoration;
+      _controller
+        ..value = 0.0
+        ..forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
+
+//过渡组件优化
+class AnimatedDecoratedBox extends ImplicitlyAnimatedWidget {
+  AnimatedDecoratedBox({
+    Key key,
+    @required this.decoration,
+    this.child,
+    Curve curve = Curves.linear, //动画曲线
+    @required Duration duration, // 正向动画执行时长
+    Duration reverseDuration, // 反向动画执行时长
+  }) : super(
+          key: key,
+          curve: curve,
+          duration: duration,
+        );
+  final BoxDecoration decoration;
+  final Widget child;
+
+  @override
+  _AnimatedDecoratedBoxState createState() {
+    return _AnimatedDecoratedBoxState();
+  }
+}
+
+class _AnimatedDecoratedBoxState
+    extends AnimatedWidgetBaseState<AnimatedDecoratedBox> {
+  DecorationTween _decoration; //定义一个Tween
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: _decoration.evaluate(animation),
+      child: widget.child,
+    );
+  }
+
+  @override
+  void forEachTween(visitor) {
+    // 在需要更新Tween时，基类会调用此方法
+    _decoration = visitor(_decoration, widget.decoration,
+        (value) => DecorationTween(begin: value));
+  }
+}
+
+//预设动画
+class AnimatedWidgetsTest extends StatefulWidget {
+  @override
+  _AnimatedWidgetsTestState createState() => _AnimatedWidgetsTestState();
+}
+
+class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
+  double _padding = 10;
+  var _align = Alignment.topRight;
+  double _height = 100;
+  double _left = 0;
+  Color _color = Colors.red;
+  TextStyle _style = TextStyle(color: Colors.black);
+  Color _decorationColor = Colors.blue;
+
+  @override
+  Widget build(BuildContext context) {
+    var duration = Duration(seconds: 5);
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('预置动画组建'),
+        ),
+        body: Column(children: <Widget>[
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      _padding = 20;
+                    });
+                  },
+                  child: AnimatedPadding(
+                    duration: duration,
+                    padding: EdgeInsets.all(_padding),
+                    child: Text("AnimatedPadding"),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                  child: Stack(
+                    children: <Widget>[
+                      AnimatedPositioned(
+                        duration: duration,
+                        left: _left,
+                        child: RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              _left = 100;
+                            });
+                          },
+                          child: Text("AnimatedPositioned"),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.grey,
+                  child: AnimatedAlign(
+                    duration: duration,
+                    alignment: _align,
+                    child: RaisedButton(
+                      onPressed: () {
+                        setState(() {
+                          _align = Alignment.center;
+                        });
+                      },
+                      child: Text("AnimatedAlign"),
+                    ),
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: duration,
+                  height: _height,
+                  color: _color,
+                  child: FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        _height = 150;
+                        _color = Colors.blue;
+                      });
+                    },
+                    child: Text(
+                      "AnimatedContainer",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                AnimatedDefaultTextStyle(
+                  child: GestureDetector(
+                    child: Text("hello world"),
+                    onTap: () {
+                      setState(() {
+                        _style = TextStyle(
+                          color: Colors.blue,
+                          decorationStyle: TextDecorationStyle.solid,
+                          decorationColor: Colors.blue,
+                        );
+                      });
+                    },
+                  ),
+                  style: _style,
+                  duration: duration,
+                ),
+                AnimatedDecoratedBox(
+                  duration: duration,
+                  decoration: BoxDecoration(color: _decorationColor),
+                  child: FlatButton(
+                    onPressed: () {
+                      setState(() {
+                        _decorationColor = Colors.red;
+                      });
+                    },
+                    child: Text(
+                      "AnimatedDecoratedBox",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ].map((e) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: e,
+                );
+              }).toList(),
+            ),
+          )
+        ]));
+  }
+}

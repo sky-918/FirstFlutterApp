@@ -141,19 +141,28 @@ class MyApp extends StatelessWidget {
         },
         '_ScaleTestRoute': (context) {
           return ScaleTestRoute();
-        }, 'GestureRecognizerTestRoute': (context) {
+        },
+        'GestureRecognizerTestRoute': (context) {
           return GestureRecognizerTestRoute();
         },
-        "NotificationRoute":(context){
+        "NotificationRoute": (context) {
           return NotificationRoute();
-        },  "ScaleAnimationRoute":(context){
+        },
+        "ScaleAnimationRoute": (context) {
           return ScaleAnimationRoute();
-        },"HeroAnimationRoute":(context){
+        },
+        "HeroAnimationRoute": (context) {
           return HeroAnimationRoute();
-        },"StaggerRoute":(context){
+        },
+        "StaggerRoute": (context) {
           return StaggerRoute();
-        }
-
+        },
+        "AnimatedSwitcherCounterRoute": (context) {
+          return AnimatedSwitcherCounterRoute();
+        },
+        "AnimatedWidgetsTest": (context) {
+          return AnimatedWidgetsTest();
+        },
       },
     );
   }
