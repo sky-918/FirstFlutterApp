@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
 import 'animation.dart';
+import 'custom_view.dart';
 import 'event_notice.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
@@ -162,6 +163,18 @@ class MyApp extends StatelessWidget {
         },
         "AnimatedWidgetsTest": (context) {
           return AnimatedWidgetsTest();
+        },
+        "GradientButtonRoute": (context) {
+          return GradientButtonRoute();
+        },
+        "TurnBoxRoute": (context) {
+          return TurnBoxRoute();
+        },
+        "CustomPaintRoute": (context) {
+          return CustomPaintRoute();
+        },
+        "GradientCircularProgressRoute": (context) {
+          return GradientCircularProgressRoute();
         },
       },
     );

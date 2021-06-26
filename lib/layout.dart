@@ -169,8 +169,11 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'HeroAnimationRoute',
     'StaggerRoute',
     'AnimatedSwitcherCounterRoute',
-    'AnimatedWidgetsTest'
-
+    'AnimatedWidgetsTest',
+    'GradientButtonRoute',
+    'TurnBoxRoute',
+    'CustomPaintRoute',
+    'GradientCircularProgressRoute'
   ];
   var listPageName = [
     '新页面',
@@ -201,8 +204,11 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'HeroAnimationRoute',
     'StaggerRoute',
     'AnimatedSwitcherCounterRoute',
-    'AnimatedWidgetsTest'
-
+    'AnimatedWidgetsTest',
+    'GradientButtonRoute',
+    "TurnBoxRoute",
+    'CustomPaintRoute',
+    'GradientCircularProgressRoute'
   ];
 
   @override
