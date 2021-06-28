@@ -9,6 +9,7 @@ import 'package:english_words/english_words.dart';
 import 'animation.dart';
 import 'custom_view.dart';
 import 'event_notice.dart';
+import 'file_io.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
@@ -175,6 +176,9 @@ class MyApp extends StatelessWidget {
         },
         "GradientCircularProgressRoute": (context) {
           return GradientCircularProgressRoute();
+        },
+        "FileOperationRoute": (context) {
+          return FileOperationRoute();
         },
       },
     );

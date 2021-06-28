@@ -173,7 +173,8 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'GradientButtonRoute',
     'TurnBoxRoute',
     'CustomPaintRoute',
-    'GradientCircularProgressRoute'
+    'GradientCircularProgressRoute',
+    'FileOperationRoute'
   ];
   var listPageName = [
     '新页面',
@@ -208,7 +209,8 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'GradientButtonRoute',
     "TurnBoxRoute",
     'CustomPaintRoute',
-    'GradientCircularProgressRoute'
+    'GradientCircularProgressRoute',
+    'FileOperationRoute'
   ];
 
   @override
