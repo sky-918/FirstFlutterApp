@@ -10,6 +10,7 @@ import 'animation.dart';
 import 'custom_view.dart';
 import 'event_notice.dart';
 import 'file_io.dart';
+import 'http_u.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
@@ -179,6 +180,9 @@ class MyApp extends StatelessWidget {
         },
         "FileOperationRoute": (context) {
           return FileOperationRoute();
+        },
+        "HttpTestRoute": (context) {
+          return HttpTestRoute();
         },
       },
     );
