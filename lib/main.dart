@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:camera/camera.dart';
 import 'package:first_flutter_app/layout.dart';
 import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'custom_view.dart';
 import 'event_notice.dart';
 import 'file_io.dart';
 import 'http_u.dart';
+import 'package_plug.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
@@ -28,8 +30,15 @@ FlutterErrorDetails makeDetails(Object obj, StackTrace stack) {
   print("构建错误消息");
 }
 
-void main() {
+var cameras;
+
+Future<void> main() async {
   // runZoned(()=>runApp(MyApp()));
+  // 获取可用摄像头列表，cameras为全局变量
+
+  try {
+    cameras = await availableCameras();
+  } catch (e) {}
   runApp(MyApp());
   // runZoned(
   //   () => runApp(MyApp()),
@@ -183,6 +192,12 @@ class MyApp extends StatelessWidget {
         },
         "HttpTestRoute": (context) {
           return HttpTestRoute();
+        },
+        "MyHomePage1": (context) {
+          return MyHomePage1();
+        },
+        "CameraExampleHome": (context) {
+          return CameraExampleHome();
         },
       },
     );
