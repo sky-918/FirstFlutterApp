@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:first_flutter_app/layout.dart';
+import 'package:first_flutter_app/tab.dart';
 import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
@@ -13,6 +14,7 @@ import 'event_notice.dart';
 import 'file_io.dart';
 import 'http_u.dart';
 import 'package_plug.dart';
+import 'bottom_tab_bar_main.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
@@ -198,6 +200,12 @@ class MyApp extends StatelessWidget {
         },
         "CameraExampleHome": (context) {
           return CameraExampleHome();
+        },
+        "Tabs": (context) {
+          return Tabs();
+        },
+        "Tabs1": (context) {
+          return Tabs1();
         },
       },
     );

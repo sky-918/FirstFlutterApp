@@ -177,7 +177,7 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'FileOperationRoute',
     'HttpTestRoute',
     'MyHomePage1',
-    'CameraExampleHome'
+    'CameraExampleHome','BottomTabBar','Tabs','Tabs1'
   ];
   var listPageName = [
     '新页面',
@@ -216,7 +216,7 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'FileOperationRoute',
     'HttpTestRoute',
     'MyHomePage1',
-    'CameraExampleHome'
+    'CameraExampleHome','BottomTabBar','Tabs','Tabs1'
   ];
 
   @override
