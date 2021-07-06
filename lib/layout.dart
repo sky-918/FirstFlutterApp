@@ -1,8 +1,11 @@
 import 'dart:collection';
 
+import 'package:first_flutter_app/generated/l10n.dart';
+import 'package:first_flutter_app/locale_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 import 'animation.dart';
 import 'main.dart';
 
@@ -139,7 +142,13 @@ class FlexLayoutTestRoute extends StatelessWidget {
   }
 }
 
-class CustomScrollViewTestRoute extends StatelessWidget {
+class CustomScrollViewTestRoute extends StatefulWidget {
+  @override
+  _CustomScrollViewTestRouteState createState() =>
+      _CustomScrollViewTestRouteState();
+}
+
+class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute> {
   var listRoute = [
     'new_page',
     'old_home',
@@ -177,7 +186,10 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'FileOperationRoute',
     'HttpTestRoute',
     'MyHomePage1',
-    'CameraExampleHome','BottomTabBar','Tabs','Tabs1'
+    'CameraExampleHome',
+    'BottomTabBar',
+    'Tabs',
+    'Tabs1'
   ];
   var listPageName = [
     '新页面',
@@ -216,7 +228,10 @@ class CustomScrollViewTestRoute extends StatelessWidget {
     'FileOperationRoute',
     'HttpTestRoute',
     'MyHomePage1',
-    'CameraExampleHome','BottomTabBar','Tabs','Tabs1'
+    'CameraExampleHome',
+    'BottomTabBar',
+    'Tabs',
+    'Tabs1'
   ];
 
   @override
@@ -232,7 +247,9 @@ class CustomScrollViewTestRoute extends StatelessWidget {
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                'Demo',
+                S
+                    .of(context)
+                    .title,
                 style: new TextStyle(fontSize: 32.0, color: Colors.red),
               ),
               background: Image.asset(
@@ -253,7 +270,7 @@ class CustomScrollViewTestRoute extends StatelessWidget {
                 childAspectRatio: 2.0,
               ),
               delegate: new SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                   //创建子widget
                   return new Container(
                     alignment: Alignment.center,
@@ -292,18 +309,47 @@ class CustomScrollViewTestRoute extends StatelessWidget {
           new SliverFixedExtentList(
             itemExtent: 50.0,
             delegate: new SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-              //创建列表项
-              return new Container(
-                alignment: Alignment.center,
-                color: Colors.lightBlue[100 * (index % 9)],
-                child: new Text('list item $index'),
-              );
-            }, childCount: 10 //50个列表项
-                ),
+                  (BuildContext context, int index) {
+                if (index == 0) {
+                  //创建列表项
+                  return Listener(
+                    child: Container(
+                      alignment: Alignment.center,
+                      color: Colors.lightBlue[100 * (index % 9)],
+                      child: new Text('English$index'),
+                    ),
+                    onPointerUp: (event) {
+                      context.read<LocaleProvider>().setLocale('en');
+                      showToast("切换英文");
+                      setState(() {});
+                      print('_CustomScrollViewTestRouteState.build,英文');
+                    },
+                  );
+                } else {
+                  //创建列表项
+                  Container container = new Container(
+                    alignment: Alignment.center,
+                    color: Colors.lightBlue[100 * (index % 9)],
+                    child: new Text('中文$index'),
+                  );
+
+                  return Listener(
+                    child: container,
+                    onPointerUp: (event) {
+                      print('_CustomScrollViewTestRouteState.build,中文');
+                      context.read<LocaleProvider>().setLocale('zh');
+                      showToast("切换中文");
+                      setState(() {});
+                    },
+                  );
+                }
+              },
+              childCount: 2, //50个列表项
+            ),
           ),
         ],
       ),
+
     );
   }
 }
@@ -385,27 +431,27 @@ class ScrollControllerTestRouteState extends State<ScrollControllerTestRoute> {
       appBar: AppBar(title: Text("滚动控制")),
       body: Scrollbar(
           child: Stack(
-        children: [
-          ListView.builder(
-              itemCount: 100,
-              itemExtent: 50.0, //列表项高度固定时，显式指定高度是一个好习惯(性能消耗小)
-              controller: _controller,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text("$index"),
-                );
-              }),
-        ],
-      )),
+            children: [
+              ListView.builder(
+                  itemCount: 100,
+                  itemExtent: 50.0, //列表项高度固定时，显式指定高度是一个好习惯(性能消耗小)
+                  controller: _controller,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text("$index"),
+                    );
+                  }),
+            ],
+          )),
       floatingActionButton: !showToTopBtn
           ? null
           : FloatingActionButton(
-              child: Icon(Icons.arrow_upward),
-              onPressed: () {
-                //返回到顶部时执行动画
-                _controller.animateTo(.0,
-                    duration: Duration(milliseconds: 200), curve: Curves.ease);
-              }),
+          child: Icon(Icons.arrow_upward),
+          onPressed: () {
+            //返回到顶部时执行动画
+            _controller.animateTo(.0,
+                duration: Duration(milliseconds: 200), curve: Curves.ease);
+          }),
     );
   }
 }
@@ -525,7 +571,10 @@ class __TestWidgetState extends State<_TestWidget> {
   @override
   Widget build(BuildContext context) {
     //使用InheritedWidget中的共享数据
-    return Text(ShareDataWidget.of(context).data.toString());
+    return Text(ShareDataWidget
+        .of(context)
+        .data
+        .toString());
     return Text("text");
   }
 
@@ -614,7 +663,7 @@ class _ProviderRouteState extends State<ProviderRoute> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ChangeNotifierProvider<CartModel>(
+      child: ChangeNotifierProvider1<CartModel>(
         data: CartModel(),
         child: Builder(builder: (context) {
           return Scaffold(
@@ -631,8 +680,8 @@ class _ProviderRouteState extends State<ProviderRoute> {
                     child: Text("添加商品"),
                     onPressed: () {
                       //给购物车中添加商品，添加后总价会更新
-                      ChangeNotifierProvider.of<CartModel>(context,
-                              listen: false)
+                      ChangeNotifierProvider1.of<CartModel>(context,
+                          listen: false)
                           .add(Item(20.0, 1));
                     },
                   );
@@ -647,14 +696,14 @@ class _ProviderRouteState extends State<ProviderRoute> {
 }
 
 class _ChangeNotifierProviderState<T extends ChangeNotifier>
-    extends State<ChangeNotifierProvider<T>> {
+    extends State<ChangeNotifierProvider1<T>> {
   void update() {
     //如果数据发生变化（model类调用了notifyListeners），重新构建InheritedProvider
     setState(() => {});
   }
 
   @override
-  void didUpdateWidget(ChangeNotifierProvider<T> oldWidget) {
+  void didUpdateWidget(ChangeNotifierProvider1<T> oldWidget) {
     //当Provider更新时，如果新旧数据不"=="，则解绑旧数据监听，同时添加新数据监听
     if (widget.data != oldWidget.data) {
       oldWidget.data.removeListener(update);
@@ -686,8 +735,8 @@ class _ChangeNotifierProviderState<T extends ChangeNotifier>
   }
 }
 
-class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
-  ChangeNotifierProvider({
+class ChangeNotifierProvider1<T extends ChangeNotifier> extends StatefulWidget {
+  ChangeNotifierProvider1({
     Key key,
     this.data,
     this.child,
@@ -703,8 +752,8 @@ class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
     final provider = listen
         ? context.dependOnInheritedWidgetOfExactType<InheritedProvider<T>>()
         : context
-            .getElementForInheritedWidgetOfExactType<InheritedProvider<T>>()
-            ?.widget as InheritedProvider<T>;
+        .getElementForInheritedWidgetOfExactType<InheritedProvider<T>>()
+        ?.widget as InheritedProvider<T>;
     return provider.data;
   }
 
@@ -756,7 +805,8 @@ class Consumer<T> extends StatelessWidget {
     Key key,
     @required this.builder,
     this.child,
-  })  : assert(builder != null),
+  })
+      : assert(builder != null),
         super(key: key);
 
   final Widget child;
@@ -767,7 +817,7 @@ class Consumer<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return builder(
       context,
-      ChangeNotifierProvider.of<T>(context), //自动获取Model
+      ChangeNotifierProvider1.of<T>(context), //自动获取Model
     );
   }
 }
@@ -861,14 +911,14 @@ class _ClorAndThem extends State<ColorAndThem> {
               ListTile(title: Text("请选择")),
               Expanded(
                   child: ListView.builder(
-                itemCount: 30,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text("$index"),
-                    onTap: () => Navigator.of(context).pop(index),
-                  );
-                },
-              )),
+                    itemCount: 30,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text("$index"),
+                        onTap: () => Navigator.of(context).pop(index),
+                      );
+                    },
+                  )),
             ],
           );
           //使用AlertDialog会报错
@@ -904,7 +954,9 @@ class _ClorAndThem extends State<ColorAndThem> {
         },
         barrierDismissible: barrierDismissible,
         barrierLabel:
-            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        MaterialLocalizations
+            .of(context)
+            .modalBarrierDismissLabel,
         barrierColor: Colors.black87,
         // 自定义遮罩颜色
         transitionDuration: const Duration(milliseconds: 150),
@@ -941,7 +993,7 @@ class _ClorAndThem extends State<ColorAndThem> {
         data: ThemeData(
             primarySwatch: _themeColor, //用于导航栏、FloatingActionButton的背景色等
             iconTheme: IconThemeData(color: _themeColor) //用于Icon颜色
-            ),
+        ),
         child: Scaffold(
           appBar: AppBar(
             title: Text("颜色和主题"),
@@ -1006,15 +1058,15 @@ class _ClorAndThem extends State<ColorAndThem> {
           ]),
           floatingActionButton: FloatingActionButton(
               onPressed: () => //切换主题
-                  setState(() => _themeColor =
-                      _themeColor == Colors.teal ? Colors.blue : Colors.teal),
+              setState(() =>
+              _themeColor =
+              _themeColor == Colors.teal ? Colors.blue : Colors.teal),
               child: Icon(Icons.palette)),
         ));
   }
 }
 
-Widget _buildMaterialDialogTransitions(
-    BuildContext context,
+Widget _buildMaterialDialogTransitions(BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
     Widget child) {

@@ -2,11 +2,18 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
+import 'package:first_flutter_app/generated/l10n.dart';
 import 'package:first_flutter_app/layout.dart';
+import 'package:first_flutter_app/locale_provider.dart';
 import 'package:first_flutter_app/tab.dart';
+import 'package:first_flutter_app/theme_provider.dart';
 import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_util/sp_util.dart';
 
 import 'animation.dart';
 import 'custom_view.dart';
@@ -14,7 +21,6 @@ import 'event_notice.dart';
 import 'file_io.dart';
 import 'http_u.dart';
 import 'package_plug.dart';
-import 'bottom_tab_bar_main.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
@@ -37,9 +43,12 @@ var cameras;
 Future<void> main() async {
   // runZoned(()=>runApp(MyApp()));
   // 获取可用摄像头列表，cameras为全局变量
-
+  /// 确保初始化完成
+  WidgetsFlutterBinding.ensureInitialized();
+  /// sp初始化
+  await SpUtil.getInstance();
   try {
-    cameras = await availableCameras();
+    cameras;
   } catch (e) {}
   runApp(MyApp());
   // runZoned(
@@ -67,30 +76,43 @@ Future<void> main() async {
 //     },
 //   );
 // }
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    final Widget app = MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider())
+      ],
+      child: Consumer2<ThemeProvider, LocaleProvider>(
+        builder: (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
+          return _buildMaterialApp(provider, localeProvider);
+        },
+      ),
+    );
+    /// Toast 配置
+    return OKToast(
+        child: app,
+        backgroundColor: Colors.black54,
+        textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        radius: 20.0,
+        position: ToastPosition.bottom
+    );
+
+
+  }
+
+  Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
+      theme: provider.getTheme(),
       routes: {
         "new_page": (context) => NewRoute(),
         "old_home": (context) => MyHomePage(
-              title: 'Flutter Demo Home Page',
-            ),
+          title: 'Flutter Demo Home Page',
+        ),
         "/": (context) => CustomScrollViewTestRoute(),
         "tip": (context) {
           //这样让原来必须传值才能创建的页面，不需要进行传值。
@@ -208,6 +230,19 @@ class MyApp extends StatelessWidget {
           return Tabs1();
         },
       },
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('zh', 'CN'),
+      ],
+      locale:localeProvider.locale,
+      darkTheme: provider.getTheme(isDarkMode: true),
+      themeMode: provider.getThemeMode(),
     );
   }
 }
