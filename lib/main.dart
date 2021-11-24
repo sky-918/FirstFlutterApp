@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:camera/camera.dart';
+import 'package:english_words/english_words.dart';
 import 'package:first_flutter_app/generated/l10n.dart';
 import 'package:first_flutter_app/layout.dart';
 import 'package:first_flutter_app/locale_provider.dart';
@@ -9,7 +9,6 @@ import 'package:first_flutter_app/tab.dart';
 import 'package:first_flutter_app/theme_provider.dart';
 import 'package:first_flutter_app/window.dart';
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ import 'custom_view.dart';
 import 'event_notice.dart';
 import 'file_io.dart';
 import 'http_u.dart';
-import 'package_plug.dart';
+import 'steel_home.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
   //收集日志
@@ -45,6 +44,7 @@ Future<void> main() async {
   // 获取可用摄像头列表，cameras为全局变量
   /// 确保初始化完成
   WidgetsFlutterBinding.ensureInitialized();
+
   /// sp初始化
   await SpUtil.getInstance();
   try {
@@ -59,6 +59,7 @@ Future<void> main() async {
   //   }),
   // );
 }
+
 // void main() {
 //   FlutterError.onError = (FlutterErrorDetails details) {
 //     reportErrorAndLog(details);
@@ -80,39 +81,39 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     final Widget app = MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider())
       ],
       child: Consumer2<ThemeProvider, LocaleProvider>(
-        builder: (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
+        builder:
+            (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
           return _buildMaterialApp(provider, localeProvider);
         },
       ),
     );
+
     /// Toast 配置
     return OKToast(
         child: app,
         backgroundColor: Colors.black54,
-        textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        textPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         radius: 20.0,
-        position: ToastPosition.bottom
-    );
-
-
+        position: ToastPosition.bottom);
   }
 
-  Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
+  Widget _buildMaterialApp(
+      ThemeProvider provider, LocaleProvider localeProvider) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: provider.getTheme(),
       routes: {
         "new_page": (context) => NewRoute(),
         "old_home": (context) => MyHomePage(
-          title: 'Flutter Demo Home Page',
-        ),
+              title: 'Flutter Demo Home Page',
+            ),
         "/": (context) => CustomScrollViewTestRoute(),
         "tip": (context) {
           //这样让原来必须传值才能创建的页面，不需要进行传值。
@@ -217,17 +218,15 @@ class MyApp extends StatelessWidget {
         "HttpTestRoute": (context) {
           return HttpTestRoute();
         },
-        "MyHomePage1": (context) {
-          return MyHomePage1();
-        },
-        "CameraExampleHome": (context) {
-          return CameraExampleHome();
-        },
+
         "Tabs": (context) {
           return Tabs();
         },
         "Tabs1": (context) {
           return Tabs1();
+        },
+        "SteelHome": (context) {
+          return SteelHome();
         },
       },
       localizationsDelegates: [

@@ -185,11 +185,11 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute> {
     'GradientCircularProgressRoute',
     'FileOperationRoute',
     'HttpTestRoute',
-    'MyHomePage1',
     'CameraExampleHome',
     'BottomTabBar',
     'Tabs',
-    'Tabs1'
+    'Tabs1',
+    'SteelHome'
   ];
   var listPageName = [
     '新页面',
@@ -227,11 +227,11 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute> {
     'GradientCircularProgressRoute',
     'FileOperationRoute',
     'HttpTestRoute',
-    'MyHomePage1',
     'CameraExampleHome',
     'BottomTabBar',
     'Tabs',
-    'Tabs1'
+    'Tabs1',
+    'SteelHome'
   ];
 
   @override
