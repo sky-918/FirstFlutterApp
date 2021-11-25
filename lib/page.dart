@@ -7,15 +7,15 @@ import 'package:flutter/widgets.dart';
 ///
 
 ///tab 页面
-class Page extends StatefulWidget {
-  const Page({Key key, @required this.text}) : super(key: key);
+class PageHome extends StatefulWidget {
+  const PageHome({Key key, @required this.text}) : super(key: key);
   final String text;
 
   @override
   _PageState createState() => _PageState();
 }
 
-class _PageState extends State<Page> with AutomaticKeepAliveClientMixin {
+class _PageState extends State<PageHome> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     print("build ${widget.text}");
@@ -43,7 +43,7 @@ class _PageViewHomeState extends State<PageViewHome> {
   Widget build(BuildContext context) {
     var childern = <Widget>[];
     for (int i = 0; i < 6; i++) {
-      childern.add(Page(text: '$i'));
+      childern.add(PageHome(text: '$i'));
     }
     return PageView(
       children: childern,
