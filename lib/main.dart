@@ -19,6 +19,7 @@ import 'custom_view.dart';
 import 'event_notice.dart';
 import 'file_io.dart';
 import 'http_u.dart';
+import 'page.dart';
 import 'steel_home.dart';
 
 void collectLog(ZoneDelegate parent, Zone zone, String line) {
@@ -227,6 +228,8 @@ class MyApp extends StatelessWidget {
         },
         "SteelHome": (context) {
           return SteelHome();
+        },"PageViewHome": (context) {
+          return PageViewHome();
         },
       },
       localizationsDelegates: [
