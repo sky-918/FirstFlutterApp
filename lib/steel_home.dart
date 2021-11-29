@@ -1,9 +1,10 @@
-import 'package:first_flutter_app/page.dart';
+import 'package:first_flutter_app/mybanner/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'indicator.dart';
-import 'page.dart';
+
+import 'mybanner/page.dart';
+import 'steel_title_list.dart';
 
 /// @auter Created by tyy on 2021/11/18
 /// desc   :我的钢铁首页作业
@@ -17,7 +18,7 @@ class SteelHome extends StatefulWidget {
 class _SteelHomeState extends State<SteelHome> {
   var _color = Colors.black;
   var _position = 0;
-  var _selectColor = Colors.amber;
+
   var _titleArray = [
     "头条",
     "黑色金属",
@@ -53,125 +54,14 @@ class _SteelHomeState extends State<SteelHome> {
         children: [
           // getSingleChildScrollView(),
           // getRefreshIndicator(),
-          getListView(),
+          TitleList(list: _titleArray),
           SteelBanner(imgList: _imgList,),
         ],
       ),
     );
   }
 
-  ///使用[SingleChildScrollView]实现可滑动的布局
-  Widget getSingleChildScrollView() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          Row(
-            // List.generate(titleArray.length, (index) => titleArray[index])
-            children: _titleArray
-                .map(
-                  (e) => GestureDetector(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10.0),
-                      height: 40,
-                      child: Align(
-                        child: Text(
-                          e,
-                          style: TextStyle(color: _color),
-                        ),
-                        alignment: Alignment.center,
-                      ),
-                    ),
-                    onTap: () => {
-                      setState(() {
-                        if (_color == Colors.black) {
-                          print("点击事件");
-                          _color = Colors.amber;
-                        } else {
-                          _color = Colors.black;
-                        }
-                      })
-                    },
-                  ),
-                )
-                .toList(),
-          ),
-          SizedBox(
-            width: 10,
-          )
-        ],
-      ),
-    );
-  }
 
-  ///使用[ListView]实现
-  Widget getListView() {
-    return Container(
-      height: 30,
-      child: ListView.separated(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        // itemExtent: 50.0,
-        //强制高度为50.0
-        itemCount: _titleArray.length,
-
-        itemBuilder: (context, index) {
-          return getItem(index);
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            width: 10,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget getItem(int index) {
-    return GestureDetector(
-      child: getChildeView(index),
-      onTap: () {
-        print("点击理$index");
-        _position = index;
-        setState(() {});
-      },
-    );
-  }
-
-  Widget getChildeView(int index) {
-    if (index == 0) {
-      return Container(
-        child: Text(
-          _titleArray[index],
-          style: getTextStyle(index),
-        ),
-        padding: EdgeInsets.only(left: 10),
-      );
-    }
-    if (index == _titleArray.length - 1) {
-      return Container(
-        child: Text(
-          _titleArray[index],
-          style: getTextStyle(index),
-        ),
-        padding: EdgeInsets.only(right: 10),
-      );
-    }
-    return Container(
-      child: Text(
-        _titleArray[index],
-        style: getTextStyle(index),
-      ),
-    );
-  }
-
-  TextStyle getTextStyle(int index) {
-    if (index == _position) {
-      return TextStyle(color: _selectColor);
-    } else {
-      return TextStyle(color: Colors.blue);
-    }
-  }
 
   Widget getRefreshIndicator(Widget widget) {
     return RefreshIndicator(

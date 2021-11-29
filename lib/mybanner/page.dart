@@ -60,7 +60,7 @@ class SteelBanner extends StatefulWidget {
 
 class _BannerState extends State<SteelBanner> {
   var select = 0;
-  var _pageControl = PageController(initialPage: 0, viewportFraction: 0.9);
+  var _pageControl = PageController(initialPage: 0, viewportFraction: 1);
 
   @override
   Widget build(BuildContext context) {
