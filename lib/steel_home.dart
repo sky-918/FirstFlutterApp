@@ -1,10 +1,12 @@
 import 'package:first_flutter_app/mybanner/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oktoast/oktoast.dart';
 
 
 import 'mybanner/page.dart';
 import 'steel_title_list.dart';
+import 'steel_top_gridview.dart';
 
 /// @auter Created by tyy on 2021/11/18
 /// desc   :我的钢铁首页作业
@@ -18,7 +20,12 @@ class SteelHome extends StatefulWidget {
 class _SteelHomeState extends State<SteelHome> {
   var _color = Colors.black;
   var _position = 0;
-
+  final List<String> _menuTitle = ['头条', '咨询', '短信', "供求",'期货'];
+  final List<String> _menuTitleIcon = ['https://img2.baidu.com/it/u=3432174479,1450323813&fm=26&fmt=auto',
+    'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2F6e%2F25%2F98%2F6e25987277d05dae9643dcee6ec020ec.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640764418&t=f14f7a54c86a41ec076bb852fc04c199',
+    'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fc5%2Fdb%2Fa1%2Fc5dba1440ec61c8041cdfb16bbbc0de2.jpeg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640764418&t=341c192bad1927960234787c4a35dedb',
+    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2F78%2Fe0%2Fe4%2F78e0e4db3a3a679fc5647ae2ef4379c7.jpeg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640764418&t=8f6ab8758c691d32c574c46ab0dffab1",
+    'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2Ffd%2Ff1%2Fda%2Ffdf1dacb8ff0b8f13ed29bcbee42f328.jpeg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640764418&t=3369e059377b0795831069671e89fa35'];
   var _titleArray = [
     "头条",
     "黑色金属",
@@ -56,6 +63,10 @@ class _SteelHomeState extends State<SteelHome> {
           // getRefreshIndicator(),
           TitleList(list: _titleArray),
           SteelBanner(imgList: _imgList,),
+          SizedBox(height: 5,),
+          GridViewMenu(color: Colors.transparent,data: _menuTitle,icons: _menuTitleIcon,onItemClick: (inedex){
+            showToast(_menuTitle[inedex]);
+          },),
         ],
       ),
     );

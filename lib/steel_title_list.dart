@@ -91,7 +91,7 @@ class _TitleListState extends State<TitleList> {
     if (index == _position) {
       return TextStyle(color: _selectColor);
     } else {
-      return TextStyle(color: Colors.blue);
+      return TextStyle(color: Colors.black);
     }
   }
 }
