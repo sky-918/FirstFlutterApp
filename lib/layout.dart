@@ -190,7 +190,6 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute> {
     'Tabs',
     'Tabs1',
     'SteelHome',
-    'PageViewHome'
   ];
   var listPageName = [
     '新页面',
@@ -233,7 +232,6 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute> {
     'Tabs',
     'Tabs1',
     'SteelHome',
-    'PageViewHome'
   ];
 
   @override

@@ -228,8 +228,6 @@ class MyApp extends StatelessWidget {
         },
         "SteelHome": (context) {
           return SteelHome();
-        },"PageViewHome": (context) {
-          return PageViewHome();
         },
       },
       localizationsDelegates: [

@@ -1,5 +1,9 @@
+import 'package:first_flutter_app/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import 'indicator.dart';
+import 'page.dart';
 
 /// @auter Created by tyy on 2021/11/18
 /// desc   :我的钢铁首页作业
@@ -14,7 +18,7 @@ class _SteelHomeState extends State<SteelHome> {
   var _color = Colors.black;
   var _position = 0;
   var _selectColor = Colors.amber;
-  var titleArray = [
+  var _titleArray = [
     "头条",
     "黑色金属",
     "镍铬不锈钢",
@@ -23,6 +27,13 @@ class _SteelHomeState extends State<SteelHome> {
     "农产品",
     "黑色金属",
     "能源化工"
+  ];
+  var _imgList = [
+    'https://file02.16sucai.com/d/file/2014/0829/b871e1addf5f8e96f3b390ece2b2da0d.jpg',
+    'https://file02.16sucai.com/d/file/2014/0829/b871e1addf5f8e96f3b390ece2b2da0d.jpg',
+    'https://file02.16sucai.com/d/file/2014/0829/b871e1addf5f8e96f3b390ece2b2da0d.jpg',
+    'https://file02.16sucai.com/d/file/2014/0829/b871e1addf5f8e96f3b390ece2b2da0d.jpg',
+    'https://file02.16sucai.com/d/file/2014/0829/b871e1addf5f8e96f3b390ece2b2da0d.jpg'
   ];
 
   @override
@@ -43,6 +54,7 @@ class _SteelHomeState extends State<SteelHome> {
           // getSingleChildScrollView(),
           // getRefreshIndicator(),
           getListView(),
+          SteelBanner(imgList: _imgList,),
         ],
       ),
     );
@@ -56,7 +68,7 @@ class _SteelHomeState extends State<SteelHome> {
         children: [
           Row(
             // List.generate(titleArray.length, (index) => titleArray[index])
-            children: titleArray
+            children: _titleArray
                 .map(
                   (e) => GestureDetector(
                     child: Container(
@@ -95,13 +107,13 @@ class _SteelHomeState extends State<SteelHome> {
   ///使用[ListView]实现
   Widget getListView() {
     return Container(
-      height: 50,
+      height: 30,
       child: ListView.separated(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         // itemExtent: 50.0,
         //强制高度为50.0
-        itemCount: titleArray.length,
+        itemCount: _titleArray.length,
 
         itemBuilder: (context, index) {
           return getItem(index);
@@ -130,16 +142,16 @@ class _SteelHomeState extends State<SteelHome> {
     if (index == 0) {
       return Container(
         child: Text(
-          titleArray[index],
+          _titleArray[index],
           style: getTextStyle(index),
         ),
         padding: EdgeInsets.only(left: 10),
       );
     }
-    if (index == titleArray.length - 1) {
+    if (index == _titleArray.length - 1) {
       return Container(
         child: Text(
-          titleArray[index],
+          _titleArray[index],
           style: getTextStyle(index),
         ),
         padding: EdgeInsets.only(right: 10),
@@ -147,7 +159,7 @@ class _SteelHomeState extends State<SteelHome> {
     }
     return Container(
       child: Text(
-        titleArray[index],
+        _titleArray[index],
         style: getTextStyle(index),
       ),
     );
