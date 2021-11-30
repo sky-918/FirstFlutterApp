@@ -37,31 +37,27 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
         children: [
           Expanded(
               flex: 1,
-              child: SizedBox(
-                height: 100,
-                child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, right: 10, left: 10),
-                      child: Text(
-                        widget.infobeanLinks.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.black, fontSize: 14),
-                      ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, right: 10, left: 10),
+                    child: Text(
+                      widget.infobeanLinks.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        widget.infobeanLinks.xSource,
-                        style: TextStyle(color: Colors.black38, fontSize: 10),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      widget.infobeanLinks.xSource,
+                      style: TextStyle(color: Colors.black38, fontSize: 10),
+                    ),
+                  )
+                ],
               )),
           Visibility(
             visible: getVisibility(widget.infobeanLinks.img),
