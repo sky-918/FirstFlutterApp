@@ -39,19 +39,26 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
               flex: 1,
               child: SizedBox(
                 height: 100,
-                child: Column(
+                child:
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.infobeanLinks.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.black, fontSize: 14),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, right: 10, left: 10),
+                      child: Text(
+                        widget.infobeanLinks.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.black, fontSize: 14),
+                      ),
                     ),
-                    Text(
-                      widget.infobeanLinks.xSource,
-                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        widget.infobeanLinks.xSource,
+                        style: TextStyle(color: Colors.black38, fontSize: 10),
+                      ),
                     )
                   ],
                 ),
@@ -59,13 +66,10 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
           Visibility(
             visible: getVisibility(widget.infobeanLinks.img),
             //是否占位
-            maintainState:  getVisibility(widget.infobeanLinks.img),
+            maintainState: getVisibility(widget.infobeanLinks.img),
             child: Padding(
                 padding: EdgeInsets.only(top: 10, right: 10, bottom: 10),
-                child: SizedBox(
-                    width: 100,
-                    height: 80,
-                    child: Image.network(widget.infobeanLinks.img))),
+                child:  ClipRRect(child: Image.network(widget.infobeanLinks.img,width: 100,height: 80,  fit: BoxFit.fitWidth,),borderRadius: BorderRadius.circular(10.0),)),
           )
         ],
       ),
@@ -73,9 +77,9 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
   }
 
   getVisibility(String img) {
-    if(img.isEmpty){
+    if (img.isEmpty) {
       return false;
-    }else{
+    } else {
       return true;
     }
   }

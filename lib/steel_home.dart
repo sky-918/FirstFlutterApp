@@ -106,9 +106,17 @@ class _SteelHomeState extends State<SteelHome> {
             }
           },
           separatorBuilder: (context, index) {
-            return Divider(
-              color: Colors.transparent,
-            );
+            if (index == 0) {
+              return Divider(
+                height: 1,
+                color: Colors.transparent,
+              );
+            } else {
+              return Divider(
+                height: 1,
+                color:  Colors.black12,
+              );
+            }
           },
           itemCount: beanList.length + 1),
     );
