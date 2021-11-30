@@ -30,7 +30,7 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
+      // color: Colors.blue,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,15 +47,19 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
                       widget.infobeanLinks.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                     ),
-                    Text(widget.infobeanLinks.xSource)
+                    Text(
+                      widget.infobeanLinks.xSource,
+                      style: TextStyle(color: Colors.black, fontSize: 10),
+                    )
                   ],
                 ),
               )),
           Visibility(
-            visible: true,
+            visible: getVisibility(widget.infobeanLinks.img),
             //是否占位
-            maintainState: true,
+            maintainState:  getVisibility(widget.infobeanLinks.img),
             child: Padding(
                 padding: EdgeInsets.only(top: 10, right: 10, bottom: 10),
                 child: SizedBox(
@@ -66,5 +70,13 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
         ],
       ),
     );
+  }
+
+  getVisibility(String img) {
+    if(img.isEmpty){
+      return false;
+    }else{
+      return true;
+    }
   }
 }

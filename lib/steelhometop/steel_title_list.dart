@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 
 /// @auter Created by tyy on 2021/11/29
 /// desc   :
@@ -49,7 +50,7 @@ class _TitleListState extends State<TitleList> {
     return GestureDetector(
       child: getChildeView(list, index),
       onTap: () {
-        print("点击理$index");
+       showToast(list[index]);
         _position = index;
         //刷新布局的回调
         setState(() {
@@ -89,9 +90,9 @@ class _TitleListState extends State<TitleList> {
   TextStyle getTextStyle(int index) {
     var _selectColor = Colors.amber;
     if (index == _position) {
-      return TextStyle(color: _selectColor);
+      return TextStyle(color: _selectColor,fontSize: 14);
     } else {
-      return TextStyle(color: Colors.black);
+      return TextStyle(color: Colors.black,fontSize: 14);
     }
   }
 }

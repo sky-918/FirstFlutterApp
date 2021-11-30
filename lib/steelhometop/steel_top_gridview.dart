@@ -23,7 +23,7 @@ class GridViewMenu extends StatelessWidget {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5, childAspectRatio: 1),
+            crossAxisCount: 5, childAspectRatio: 0.9),
         itemCount: data.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
@@ -46,7 +46,7 @@ class GridViewMenu extends StatelessWidget {
                     ),
                     Text(
                       data[index],
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 13,color: Colors.black),
                     )
                   ],
                 ),

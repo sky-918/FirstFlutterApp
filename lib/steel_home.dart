@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:oktoast/oktoast.dart';
 
 import 'app_string.dart';
 import 'infobean_entity.dart';
@@ -28,13 +27,23 @@ class _SteelHomeState extends State<SteelHome> {
 
   List<InfobeanLinks> getInfoList() {
     List<InfobeanLinks> beanList = [];
+    InfobeanLinks infobeanEntity = InfobeanLinks();
+    infobeanEntity.xSource = '论语摘抄网';
+    infobeanEntity.img = "";
+    infobeanEntity.title = AppString.infoTitleList[2];
+    beanList.add(infobeanEntity);
     for (int i = 0; i < 5; i++) {
       InfobeanLinks infobeanEntity = InfobeanLinks();
-      infobeanEntity.img = AppString.menuTitleIcon.last;
-      infobeanEntity.title = AppString.infoTitleList.first;
       infobeanEntity.xSource = '论语摘抄网';
+      infobeanEntity.img = AppString.menuTitleIcon[i];
+      infobeanEntity.title = AppString.infoTitleList[i];
       beanList.add(infobeanEntity);
     }
+    InfobeanLinks infobeanEntity1 = InfobeanLinks();
+    infobeanEntity1.xSource = '论语摘抄网';
+    infobeanEntity1.img = "";
+    infobeanEntity1.title = AppString.infoTitleList[3];
+    beanList.add(infobeanEntity);
     return beanList;
   }
 
@@ -51,11 +60,14 @@ class _SteelHomeState extends State<SteelHome> {
         centerTitle: true,
         // toolbarHeight: 100,
       ),
-      body: Column(
-        children: [
-          TitleList(list: AppString.titleArray),
-          getRefreshIndicator(getParentView())
-        ],
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            TitleList(list: AppString.titleArray),
+            getRefreshIndicator(getParentView())
+          ],
+        ),
       ),
     );
   }
@@ -90,7 +102,7 @@ class _SteelHomeState extends State<SteelHome> {
             if (index == 0) {
               return SteelHomeTop();
             } else {
-              return ItemSteelHomeArticle(infobeanLinks:beanList[index-1]);
+              return ItemSteelHomeArticle(infobeanLinks: beanList[index - 1]);
             }
           },
           separatorBuilder: (context, index) {
@@ -98,7 +110,7 @@ class _SteelHomeState extends State<SteelHome> {
               color: Colors.transparent,
             );
           },
-          itemCount: beanList.length+1),
+          itemCount: beanList.length + 1),
     );
   }
 }
