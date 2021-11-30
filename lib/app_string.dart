@@ -27,4 +27,10 @@ class AppString {
     'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-11-19%2F5bf2563439059.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640765799&t=16cd8c3d25d0a3edba01b7c4303703f5',
     'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fdd502cc56049fca09420e7b77a786bc5c7a9b3ffb1371-l7vKt5_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640765799&t=92e023d3cc5dd3da1cfac9a77c53f2c4'
   ];
+  static const infoTitleList = [
+    '有子曰：“其为人也孝弟，而好犯上者，鲜矣；不好犯上，而好作乱者，未之有也。**君子务本，本立而道生。**孝弟也者，其为仁之本与？”',
+    '曾子曰：“吾日三省吾身。为人谋而不忠乎？**与朋友交而不信乎？传不习乎？**”',
+    '子曰：“**弟子入则孝，出则弟，谨而言，泛爱众，而亲仁，行有余力，则以学文。**”',
+    '子曰：“**君子，不重则不威；学则不固。主忠信，无友不如己者；过则勿惮改。**”'
+  ];
 }

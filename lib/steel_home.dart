@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'app_string.dart';
+import 'infobean_entity.dart';
 import 'steel_home_item.dart';
 import 'steelhometop/steel_home_top.dart';
 import 'steelhometop/steel_title_list.dart';
@@ -17,6 +18,26 @@ class SteelHome extends StatefulWidget {
 }
 
 class _SteelHomeState extends State<SteelHome> {
+  List<InfobeanLinks> beanList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    beanList = getInfoList();
+  }
+
+  List<InfobeanLinks> getInfoList() {
+    List<InfobeanLinks> beanList = [];
+    for (int i = 0; i < 5; i++) {
+      InfobeanLinks infobeanEntity = InfobeanLinks();
+      infobeanEntity.img = AppString.menuTitleIcon.last;
+      infobeanEntity.title = AppString.infoTitleList.first;
+      infobeanEntity.xSource = '论语摘抄网';
+      beanList.add(infobeanEntity);
+    }
+    return beanList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +64,9 @@ class _SteelHomeState extends State<SteelHome> {
     return RefreshIndicator(
       onRefresh: () async {
         await Future<void>.delayed(const Duration(seconds: 2));
-        setState(()=>showToast("数据刷新"));
+        setState(() {
+          beanList.addAll(getInfoList());
+        });
       },
       //下拉刷新回调
       displacement: 40,
@@ -60,13 +83,14 @@ class _SteelHomeState extends State<SteelHome> {
 
   getParentView() {
     return SizedBox(
-      height: 500,
+      //Material设计规范中状态栏、导航栏、ListTile高度分别为24、56、56
+      height: MediaQuery.of(context).size.height - 24 - 56 - 50,
       child: ListView.separated(
           itemBuilder: (context, index) {
             if (index == 0) {
               return SteelHomeTop();
             } else {
-              return ItemSteelHomeArticle();
+              return ItemSteelHomeArticle(infobeanLinks:beanList[index-1]);
             }
           },
           separatorBuilder: (context, index) {
@@ -74,7 +98,7 @@ class _SteelHomeState extends State<SteelHome> {
               color: Colors.transparent,
             );
           },
-          itemCount: 4),
+          itemCount: beanList.length+1),
     );
   }
 }

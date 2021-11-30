@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'infobean_entity.dart';
+
 /// @auter Created by tyy on 2021/11/29
 /// desc   :
 /// version:
@@ -16,7 +18,9 @@ import 'package:flutter/rendering.dart';
 // }
 
 class ItemSteelHomeArticle extends StatefulWidget {
-  const ItemSteelHomeArticle({Key key}) : super(key: key);
+  const ItemSteelHomeArticle({Key key, @required this.infobeanLinks})
+      : super(key: key);
+  final InfobeanLinks infobeanLinks;
 
   @override
   _ItemSteelHomeArticleState createState() => _ItemSteelHomeArticleState();
@@ -27,8 +31,7 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blue,
-      child:
-      Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -41,11 +44,11 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "有子曰：其为人也孝弟，而好犯上者，鲜矣；不",
+                      widget.infobeanLinks.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text("来源")
+                    Text(widget.infobeanLinks.xSource)
                   ],
                 ),
               )),
@@ -58,8 +61,7 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
                 child: SizedBox(
                     width: 100,
                     height: 80,
-                    child: Image.network(
-                        "https://img2.baidu.com/it/u=3432174479,1450323813&fm=26&fmt=auto"))),
+                    child: Image.network(widget.infobeanLinks.img))),
           )
         ],
       ),
