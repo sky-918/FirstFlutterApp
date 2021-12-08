@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'generated/json/base/aritical_bean.dart';
 import 'infobean_entity.dart';
 
 /// @auter Created by tyy on 2021/11/29
@@ -20,7 +22,7 @@ import 'infobean_entity.dart';
 class ItemSteelHomeArticle extends StatefulWidget {
   const ItemSteelHomeArticle({Key key, @required this.infobeanLinks})
       : super(key: key);
-  final InfobeanLinks infobeanLinks;
+  final Result infobeanLinks;
 
   @override
   _ItemSteelHomeArticleState createState() => _ItemSteelHomeArticleState();
@@ -29,6 +31,7 @@ class ItemSteelHomeArticle extends StatefulWidget {
 class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
   @override
   Widget build(BuildContext context) {
+
     return Container(
       // color: Colors.blue,
       child: Row(
@@ -53,23 +56,28 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      widget.infobeanLinks.xSource,
+                      widget.infobeanLinks.passtime,
                       style: TextStyle(color: Colors.black38, fontSize: 10),
                     ),
                   )
                 ],
               )),
           Visibility(
-            visible: getVisibility(widget.infobeanLinks.img),
+            visible: getVisibility(widget.infobeanLinks.image),
             //是否占位
-            maintainState: getVisibility(widget.infobeanLinks.img),
+            maintainState: getVisibility(widget.infobeanLinks.image),
             child: Padding(
                 padding: EdgeInsets.only(top: 10, right: 10, bottom: 10),
-                child:  ClipRRect(child: Image.network(widget.infobeanLinks.img,width: 100,height: 80,  fit: BoxFit.fitWidth,),borderRadius: BorderRadius.circular(10.0),)),
+                child:  ClipRRect(child: Image.network(widget.infobeanLinks.image,width: 100,height: 80,  fit: BoxFit.fitWidth,),borderRadius: BorderRadius.circular(10.0),)),
           )
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+
   }
 
   getVisibility(String img) {
@@ -78,5 +86,20 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
     } else {
       return true;
     }
+  }
+
+
+
+  getHttp() async {
+    var response = await Dio().get("https://api.apiopen.top/getWangYiNews?page=1&count=2");
+    AriticalBean baseBeanEntity =
+    AriticalBean.fromJson(response.data);
+    int code = baseBeanEntity.code;
+    print("121212=$code");
+    if (code == 200) {
+
+    }
+
+
   }
 }

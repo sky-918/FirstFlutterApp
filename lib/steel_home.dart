@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'app_string.dart';
+import 'generated/json/base/aritical_bean.dart';
 import 'infobean_entity.dart';
 import 'steel_home_item.dart';
 import 'steelhometop/steel_home_top.dart';
@@ -17,35 +19,15 @@ class SteelHome extends StatefulWidget {
 }
 
 class _SteelHomeState extends State<SteelHome> {
-  List<InfobeanLinks> beanList = [];
+  List<Result>  beanList = [];
 
   @override
   void initState() {
     super.initState();
-    beanList = getInfoList();
+
+    getHttp();
   }
 
-  List<InfobeanLinks> getInfoList() {
-    List<InfobeanLinks> beanList = [];
-    InfobeanLinks infobeanEntity = InfobeanLinks();
-    infobeanEntity.xSource = '论语摘抄网';
-    infobeanEntity.img = "";
-    infobeanEntity.title = AppString.infoTitleList[2];
-    beanList.add(infobeanEntity);
-    for (int i = 0; i < 5; i++) {
-      InfobeanLinks infobeanEntity = InfobeanLinks();
-      infobeanEntity.xSource = '论语摘抄网';
-      infobeanEntity.img = AppString.menuTitleIcon[i];
-      infobeanEntity.title = AppString.infoTitleList[i];
-      beanList.add(infobeanEntity);
-    }
-    InfobeanLinks infobeanEntity1 = InfobeanLinks();
-    infobeanEntity1.xSource = '论语摘抄网';
-    infobeanEntity1.img = "";
-    infobeanEntity1.title = AppString.infoTitleList[3];
-    beanList.add(infobeanEntity);
-    return beanList;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +59,7 @@ class _SteelHomeState extends State<SteelHome> {
       onRefresh: () async {
         await Future<void>.delayed(const Duration(seconds: 2));
         setState(() {
-          beanList.addAll(getInfoList());
+
         });
       },
       //下拉刷新回调
@@ -120,5 +102,25 @@ class _SteelHomeState extends State<SteelHome> {
           },
           itemCount: beanList.length + 1),
     );
+  }
+
+
+  getHttp() async {
+    var response =
+    await Dio().get("https://api.apiopen.top/getWangYiNews?page=1&count=2");
+    AriticalBean baseBeanEntity =
+    AriticalBean.fromJson(response.data);
+    int code = baseBeanEntity.code;
+    print("121212=$code");
+    if (code == 200) {
+
+
+      setState(() {
+        beanList= baseBeanEntity.result  ;
+      });
+
+    }
+
+
   }
 }

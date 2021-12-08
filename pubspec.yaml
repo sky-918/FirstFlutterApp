@@ -37,6 +37,8 @@ dependencies:
   provider: ^6.0.1
   # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
   oktoast: ^3.0.0
+  dio: ^4.0.4
+  convert: ^3.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
