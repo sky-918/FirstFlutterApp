@@ -20,7 +20,7 @@ class SteelHome extends StatefulWidget {
 class _SteelHomeState extends State<SteelHome> {
   List<Result> beanList = [];
   ValueNotifier _valueNotifier;
-  int page = 1;
+  int page = 0;
 
   @override
   void initState() {
@@ -74,19 +74,35 @@ class _SteelHomeState extends State<SteelHome> {
   }
 
   getParentView(List<Result> beanList) {
-    if (beanList.isEmpty) {
-      print("sdasdasd");
-      getHttp();
-    }
+
     return SizedBox(
       //Material设计规范中状态栏、导航栏、ListTile高度分别为24、56、56
       height: MediaQuery.of(context).size.height - 24 - 56 - 50,
       child: ListView.separated(
           itemBuilder: (context, index) {
+            print("sssssssssssssssss= $index");
             if (index == 0) {
               return SteelHomeTop();
             } else {
-              return ItemSteelHomeArticle(infobeanLinks: beanList[index - 1]);
+              if(index==beanList.length+1){
+                page=page+1;
+                getHttp();
+
+
+                return Container(
+                  padding: const EdgeInsets.all(16.0),
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: 24.0,
+                    height: 24.0,
+                    child: CircularProgressIndicator(strokeWidth: 2.0),
+                  ),
+                );
+
+              }else{
+                return ItemSteelHomeArticle(infobeanLinks: beanList[index - 1]);
+              }
+
             }
           },
           separatorBuilder: (context, index) {
@@ -102,7 +118,7 @@ class _SteelHomeState extends State<SteelHome> {
               );
             }
           },
-          itemCount: beanList.length + 1),
+          itemCount: beanList.length + 2),
     );
   }
 
@@ -114,12 +130,14 @@ class _SteelHomeState extends State<SteelHome> {
     int code = baseBeanEntity.code;
     print("121212=$code");
     if (code == 200) {
-      // Loading.hideLoading(context);
-      beanList = baseBeanEntity.result;
+      // beanList.addAll(list);
+      if(page==1){
+        beanList.clear();
+      }
+      beanList.insertAll(beanList.length, baseBeanEntity.result);
       _valueNotifier.value=beanList;
-      // setState(() {
-      //   beanList = baseBeanEntity.result;
-      // });
+      _valueNotifier.notifyListeners();
+
     }
   }
 
@@ -127,7 +145,6 @@ class _SteelHomeState extends State<SteelHome> {
 
   getValueListenableBuilder(){
     return ValueListenableBuilder(valueListenable: _valueNotifier, builder: (context,value,child){
-      print("sssssssssss");
       return  getParentView(value);
     });
   }
