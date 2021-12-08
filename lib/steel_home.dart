@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oktoast/oktoast.dart';
 
 import 'app_string.dart';
 import 'bean/aritical_bean.dart';
+import 'steel_artical/article_detail.dart';
 import 'steel_artical/steel_home_item.dart';
 import 'steelhometop/steel_home_top.dart';
 import 'steelhometop/steel_title_list.dart';
@@ -74,7 +77,6 @@ class _SteelHomeState extends State<SteelHome> {
   }
 
   getParentView(List<Result> beanList) {
-
     return SizedBox(
       //Material设计规范中状态栏、导航栏、ListTile高度分别为24、56、56
       height: MediaQuery.of(context).size.height - 24 - 56 - 50,
@@ -84,10 +86,9 @@ class _SteelHomeState extends State<SteelHome> {
             if (index == 0) {
               return SteelHomeTop();
             } else {
-              if(index==beanList.length+1){
-                page=page+1;
+              if (index == beanList.length + 1) {
+                page = page + 1;
                 getHttp();
-
 
                 return Container(
                   padding: const EdgeInsets.all(16.0),
@@ -98,11 +99,16 @@ class _SteelHomeState extends State<SteelHome> {
                     child: CircularProgressIndicator(strokeWidth: 2.0),
                   ),
                 );
-
-              }else{
-                return ItemSteelHomeArticle(infobeanLinks: beanList[index - 1]);
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    showToast(beanList[index - 1].title);
+                    Navigator.push(context, CupertinoPageRoute(builder: (context)=>ArticleDetail(infobeanLinks: beanList[index - 1])));
+                  },
+                  child:
+                      ItemSteelHomeArticle(infobeanLinks: beanList[index - 1]),
+                );
               }
-
             }
           },
           separatorBuilder: (context, index) {
@@ -123,7 +129,6 @@ class _SteelHomeState extends State<SteelHome> {
   }
 
   getHttp() async {
-
     var response = await Dio()
         .get("https://api.apiopen.top/getWangYiNews?page=$page&count=10");
     AriticalBean baseBeanEntity = AriticalBean.fromJson(response.data);
@@ -131,21 +136,20 @@ class _SteelHomeState extends State<SteelHome> {
     print("121212=$code");
     if (code == 200) {
       // beanList.addAll(list);
-      if(page==1){
+      if (page == 1) {
         beanList.clear();
       }
       beanList.insertAll(beanList.length, baseBeanEntity.result);
-      _valueNotifier.value=beanList;
+      _valueNotifier.value = beanList;
       _valueNotifier.notifyListeners();
-
     }
   }
 
-
-
-  getValueListenableBuilder(){
-    return ValueListenableBuilder(valueListenable: _valueNotifier, builder: (context,value,child){
-      return  getParentView(value);
-    });
+  getValueListenableBuilder() {
+    return ValueListenableBuilder(
+        valueListenable: _valueNotifier,
+        builder: (context, value, child) {
+          return getParentView(value);
+        });
   }
 }
