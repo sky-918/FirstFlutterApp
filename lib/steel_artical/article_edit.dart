@@ -12,9 +12,15 @@ class ArticleEdit extends StatefulWidget {
 }
 
 class _ArticleEditState extends State<ArticleEdit> {
+  Future<bool> getonWillPop (){
+    // await
+    // FocusScope.of(context).requestFocus(FocusNode());
+    return new Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(child:  Scaffold(
       appBar: AppBar(
         title: Text(
           '添加文章正文',
@@ -38,10 +44,13 @@ class _ArticleEditState extends State<ArticleEdit> {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 10, right: 10, bottom: 10,top: 20),
-            child: Text('文章正文'),
+            child: TextField(autofocus:false ,),
           )
         ],
       ),
-    );
+    ), onWillPop: getonWillPop)
+
+     ;
   }
+
 }

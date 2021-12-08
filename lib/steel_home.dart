@@ -28,7 +28,6 @@ class _SteelHomeState extends State<SteelHome> {
   @override
   void initState() {
     super.initState();
-    print("sdasdasd");
     _valueNotifier = ValueNotifier(this.beanList);
   }
 
@@ -82,7 +81,6 @@ class _SteelHomeState extends State<SteelHome> {
       height: MediaQuery.of(context).size.height - 24 - 56 - 50,
       child: ListView.separated(
           itemBuilder: (context, index) {
-            print("sssssssssssssssss= $index");
             if (index == 0) {
               return SteelHomeTop();
             } else {

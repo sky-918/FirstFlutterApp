@@ -73,10 +73,11 @@ class _ArticleDetailState extends State<ArticleDetail> {
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
-         Padding(
-            padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-            child: Text('文章正文'),
-          )
+         Expanded(child:   Padding(
+           padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+           child: Text('文章正文'),
+         ))
+
         ],
       ),
     );
