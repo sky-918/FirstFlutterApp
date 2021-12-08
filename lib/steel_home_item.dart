@@ -2,8 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'generated/json/base/aritical_bean.dart';
+import 'bean/aritical_bean.dart';
 import 'infobean_entity.dart';
+import 'mwidget/loading_widget.dart';
 
 /// @auter Created by tyy on 2021/11/29
 /// desc   :
@@ -68,7 +69,7 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
             maintainState: getVisibility(widget.infobeanLinks.image),
             child: Padding(
                 padding: EdgeInsets.only(top: 10, right: 10, bottom: 10),
-                child:  ClipRRect(child: Image.network(widget.infobeanLinks.image,width: 100,height: 80,  fit: BoxFit.fitWidth,),borderRadius: BorderRadius.circular(10.0),)),
+                child:  ClipRRect(child: Image.network(widget.infobeanLinks.image,width: 100,height: 80,  fit: BoxFit.cover,),borderRadius: BorderRadius.circular(10.0),)),
           )
         ],
       ),
@@ -90,16 +91,4 @@ class _ItemSteelHomeArticleState extends State<ItemSteelHomeArticle> {
 
 
 
-  getHttp() async {
-    var response = await Dio().get("https://api.apiopen.top/getWangYiNews?page=1&count=2");
-    AriticalBean baseBeanEntity =
-    AriticalBean.fromJson(response.data);
-    int code = baseBeanEntity.code;
-    print("121212=$code");
-    if (code == 200) {
-
-    }
-
-
-  }
 }

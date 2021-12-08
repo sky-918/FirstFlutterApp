@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'app_string.dart';
-import 'generated/json/base/aritical_bean.dart';
-import 'infobean_entity.dart';
+import 'bean/aritical_bean.dart';
 import 'steel_home_item.dart';
 import 'steelhometop/steel_home_top.dart';
 import 'steelhometop/steel_title_list.dart';
@@ -19,15 +18,16 @@ class SteelHome extends StatefulWidget {
 }
 
 class _SteelHomeState extends State<SteelHome> {
-  List<Result>  beanList = [];
+  List<Result> beanList = [];
+  ValueNotifier _valueNotifier;
+  int page = 1;
 
   @override
   void initState() {
     super.initState();
-
-    getHttp();
+    print("sdasdasd");
+    _valueNotifier = ValueNotifier(this.beanList);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _SteelHomeState extends State<SteelHome> {
         child: Column(
           children: [
             TitleList(list: AppString.titleArray),
-            getRefreshIndicator(getParentView())
+            getRefreshIndicator(getValueListenableBuilder())
           ],
         ),
       ),
@@ -57,10 +57,8 @@ class _SteelHomeState extends State<SteelHome> {
   Widget getRefreshIndicator(Widget widget) {
     return RefreshIndicator(
       onRefresh: () async {
-        await Future<void>.delayed(const Duration(seconds: 2));
-        setState(() {
-
-        });
+        page = 1;
+        getHttp();
       },
       //下拉刷新回调
       displacement: 40,
@@ -75,7 +73,11 @@ class _SteelHomeState extends State<SteelHome> {
     );
   }
 
-  getParentView() {
+  getParentView(List<Result> beanList) {
+    if (beanList.isEmpty) {
+      print("sdasdasd");
+      getHttp();
+    }
     return SizedBox(
       //Material设计规范中状态栏、导航栏、ListTile高度分别为24、56、56
       height: MediaQuery.of(context).size.height - 24 - 56 - 50,
@@ -96,7 +98,7 @@ class _SteelHomeState extends State<SteelHome> {
             } else {
               return Divider(
                 height: 1,
-                color:  Colors.black12,
+                color: Colors.black12,
               );
             }
           },
@@ -104,23 +106,29 @@ class _SteelHomeState extends State<SteelHome> {
     );
   }
 
-
   getHttp() async {
-    var response =
-    await Dio().get("https://api.apiopen.top/getWangYiNews?page=1&count=2");
-    AriticalBean baseBeanEntity =
-    AriticalBean.fromJson(response.data);
+
+    var response = await Dio()
+        .get("https://api.apiopen.top/getWangYiNews?page=$page&count=10");
+    AriticalBean baseBeanEntity = AriticalBean.fromJson(response.data);
     int code = baseBeanEntity.code;
     print("121212=$code");
     if (code == 200) {
-
-
-      setState(() {
-        beanList= baseBeanEntity.result  ;
-      });
-
+      // Loading.hideLoading(context);
+      beanList = baseBeanEntity.result;
+      _valueNotifier.value=beanList;
+      // setState(() {
+      //   beanList = baseBeanEntity.result;
+      // });
     }
+  }
 
 
+
+  getValueListenableBuilder(){
+    return ValueListenableBuilder(valueListenable: _valueNotifier, builder: (context,value,child){
+      print("sssssssssss");
+      return  getParentView(value);
+    });
   }
 }
