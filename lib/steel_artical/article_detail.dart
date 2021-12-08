@@ -1,5 +1,8 @@
 import 'package:first_flutter_app/bean/aritical_bean.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'article_edit.dart';
 
 /// @auter Created by tyy on 2021/12/8
 /// desc   :
@@ -27,7 +30,9 @@ class _ArticleDetailState extends State<ArticleDetail> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, CupertinoPageRoute(builder: (context)=>ArticleEdit()));
+            },
             child: Icon(
               Icons.edit,
               color: Colors.black,
