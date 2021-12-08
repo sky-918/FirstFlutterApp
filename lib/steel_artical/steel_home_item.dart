@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'bean/aritical_bean.dart';
-import 'infobean_entity.dart';
-import 'mwidget/loading_widget.dart';
+import '../bean/aritical_bean.dart';
+import '../infobean_entity.dart';
+import '../mwidget/loading_widget.dart';
 
 /// @auter Created by tyy on 2021/11/29
 /// desc   :

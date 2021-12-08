@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import 'app_string.dart';
 import 'bean/aritical_bean.dart';
-import 'steel_home_item.dart';
+import 'steel_artical/steel_home_item.dart';
 import 'steelhometop/steel_home_top.dart';
 import 'steelhometop/steel_title_list.dart';
 
