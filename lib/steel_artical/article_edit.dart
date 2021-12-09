@@ -35,7 +35,7 @@ class _ArticleEditState extends State<ArticleEdit> {
   @override
   void initState() {
     _streamController = StreamController<int>();
-   String content= widget.infobeanLinks.content;
+   String content= widget.infobeanLinks.content??"";
     _editingController.value = _editingController.value.copyWith(
       text: content,
       selection:
