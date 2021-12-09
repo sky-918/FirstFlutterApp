@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:first_flutter_app/bean/aritical_bean.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -8,7 +9,8 @@ import 'package:oktoast/oktoast.dart';
 /// version:
 ///
 class ArticleEdit extends StatefulWidget {
-  const ArticleEdit({Key key}) : super(key: key);
+  const ArticleEdit({Key key, this.infobeanLinks}) : super(key: key);
+  final Result infobeanLinks;
 
   @override
   _ArticleEditState createState() => _ArticleEditState();
@@ -18,6 +20,8 @@ class _ArticleEditState extends State<ArticleEdit> {
   Future<bool> getonWillPop() {
     // await
     // FocusScope.of(context).requestFocus(FocusNode());
+    //返回
+    Navigator.of(context).pop(this);
     return new Future.value(true);
   }
 
@@ -31,12 +35,23 @@ class _ArticleEditState extends State<ArticleEdit> {
   @override
   void initState() {
     _streamController = StreamController<int>();
+   String content= widget.infobeanLinks.content;
+    _editingController.value = _editingController.value.copyWith(
+      text: content,
+      selection:
+      TextSelection(baseOffset: content.length, extentOffset: content.length),
+      composing: TextRange.empty,
+    );
     _editingController.addListener(() {
-      String text = _editingController.text;
+      String text = _editingController.text?? widget.infobeanLinks.content;
+
+
       textLength = text.length;
       _streamController.add(textLength);
+
        tip = textLength == 20 ? "有最大字数限制" : "1";
     });
+
   }
 
   @override
@@ -55,6 +70,7 @@ class _ArticleEditState extends State<ArticleEdit> {
               TextButton(
                 onPressed: () {
                   showToast('保存');
+                 widget.infobeanLinks.scontent= _editingController.text.toString();
                 },
                 child: Icon(
                   Icons.save,
@@ -87,10 +103,10 @@ class _ArticleEditState extends State<ArticleEdit> {
                     decoration: InputDecoration(
                         hintText: '请输入文章正文',
                         hintStyle:
-                            TextStyle(color: Colors.black38, fontSize: 12),
+                            TextStyle( fontSize: 12),
                         counterText: getTextWidget(),
                         counterStyle:
-                            TextStyle(color: Colors.black38, fontSize: 10),
+                            TextStyle( fontSize: 10),
                         border: InputBorder.none,
                         errorStyle: TextStyle(fontSize: 10)),
                     maxLength: 20,

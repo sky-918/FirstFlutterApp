@@ -39,6 +39,7 @@ dependencies:
   oktoast: ^3.0.0
   dio: ^4.0.4
   convert: ^3.0.1
+  sqflite: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

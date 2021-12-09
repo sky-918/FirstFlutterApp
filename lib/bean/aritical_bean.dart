@@ -4,13 +4,14 @@
 
 class AriticalBean {
   AriticalBean({
-      int code, 
-      String message, 
-      List<Result> result,}){
+    int code,
+    String message,
+    List<Result> result,
+  }) {
     _code = code;
     _message = message;
     _result = result;
-}
+  }
 
   AriticalBean.fromJson(dynamic json) {
     _code = json['code'];
@@ -22,12 +23,15 @@ class AriticalBean {
       });
     }
   }
+
   int _code;
   String _message;
   List<Result> _result;
 
   int get code => _code;
+
   String get message => _message;
+
   List<Result> get result => _result;
 
   Map<String, dynamic> toJson() {
@@ -39,7 +43,6 @@ class AriticalBean {
     }
     return map;
   }
-
 }
 
 /// path : "https://www.163.com/dy/article/G1O1Q9Q2053469M5.html"
@@ -48,32 +51,44 @@ class AriticalBean {
 /// passtime : "2021-02-02 10:00:51"
 
 class Result {
-  Result({
-      String path, 
-      String image, 
-      String title, 
-      String passtime,}){
+  Result(
+      {String path,
+      String image,
+      String title,
+      String passtime,
+      String content}) {
     _path = path;
     _image = image;
     _title = title;
     _passtime = passtime;
-}
+    _content = content;
+  }
 
   Result.fromJson(dynamic json) {
     _path = json['path'];
     _image = json['image'];
     _title = json['title'];
     _passtime = json['passtime'];
+    _content = json['content'];
   }
+
   String _path;
   String _image;
   String _title;
   String _passtime;
+  String _content;
 
   String get path => _path;
+
   String get image => _image;
+
   String get title => _title;
+
   String get passtime => _passtime;
+  String get content => _content;
+  set scontent(String s){
+    _content=s;
+  }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -81,7 +96,7 @@ class Result {
     map['image'] = _image;
     map['title'] = _title;
     map['passtime'] = _passtime;
+    map['content'] = _content;
     return map;
   }
-
 }

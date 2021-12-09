@@ -31,7 +31,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context)=>ArticleEdit()));
+              Navigator.push(context, CupertinoPageRoute(builder: (context)=>ArticleEdit(infobeanLinks: widget.infobeanLinks,)));
             },
             child: Icon(
               Icons.edit,
@@ -58,7 +58,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
             padding: EdgeInsets.all(10),
             child: Text(
               widget.infobeanLinks.passtime,
-              style: TextStyle(color: Colors.black38, fontSize: 10),
+              style: TextStyle(fontSize: 10),
             ),
           ),
           Padding(
@@ -75,11 +75,18 @@ class _ArticleDetailState extends State<ArticleDetail> {
           ),
          Expanded(child:   Padding(
            padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-           child: Text('文章正文'),
+           child: Text(widget.infobeanLinks.content??"正文"),
          ))
 
         ],
       ),
     );
+  }
+
+  @override
+  void didUpdateWidget(ArticleDetail oldWidget) {
+    setState(() {
+
+    });
   }
 }
