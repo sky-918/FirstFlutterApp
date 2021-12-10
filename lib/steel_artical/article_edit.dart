@@ -70,6 +70,7 @@ class _ArticleEditState extends State<ArticleEdit> {
               TextButton(
                 onPressed: () {
                   showToast('保存');
+                  FocusScope.of(context).requestFocus(FocusNode());
                  widget.infobeanLinks.scontent= _editingController.text.toString();
                 },
                 child: Icon(
